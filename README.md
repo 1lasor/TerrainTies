@@ -1,1 +1,1 @@
-#A simple Location-Based Social Networking WeChat Mini Program
+# A simple Location-Based Social Networking WeChat Mini Program
