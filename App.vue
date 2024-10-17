@@ -1,5 +1,7 @@
 <script>
-import { EMClient } from "./EaseIM";
+	import {
+		EMClient
+	} from "./EaseIM";
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
@@ -11,10 +13,10 @@ import { EMClient } from "./EaseIM";
 		onHide: function() {
 			console.log('App Hide')
 		},
-		methods:{
+		methods: {
 			//挂载事件监听
-			initIMListener(){
-				EMClient.addEventHandler("connect",{
+			initIMListener() {
+				EMClient.addEventHandler("connect", {
 					onConnected: () => {
 						console.log("onConnected");
 					},
@@ -29,7 +31,18 @@ import { EMClient } from "./EaseIM";
 						console.log("onTokenExpired");
 					},
 				});
+				EMClient.addEventHandler("message", { // 当前用户收到文本消息。
+					onTextMessage: function(message) {
+						console.log('>>>>>',message)
+					},
+					// 当前用户收到图片消息。
+					onImageMessage: function(message) {},
+					// 当前用户收到透传消息。
+					onCmdMessage: function(message) {},
+
+				})
 			}
+
 		}
 	}
 </script>

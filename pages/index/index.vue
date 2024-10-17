@@ -20,6 +20,10 @@ const loginIM = () => {
 	})
 		.then(() => {
 			console.log("login success");
+			uni.navigateTo({
+				url: '/pages/chat/index'
+			})
+			console.log("page changed");
 		})
 		.catch((reason) => {
 			console.log("login fail", reason);

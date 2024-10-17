@@ -5,6 +5,15 @@
 			"style": {
 				"navigationBarTitleText": "uni-app"
 			}
+		},
+		{
+			"path":"pages/chat/index",
+		},
+		{
+			"path":"pages/test/test",
+			// "style": {
+			// 	"navigationBarTitleText": "uni-app"
+			// }
 		}
 	],
 	"globalStyle": {
