@@ -11,9 +11,12 @@
 		},
 		{
 			"path":"pages/test/test",
-			// "style": {
-			// 	"navigationBarTitleText": "uni-app"
-			// }
+		},
+		{
+			"path":"pages/social_map/index",
+		},
+		{
+			"path":"pages/contacts/index",
 		}
 	],
 	"globalStyle": {

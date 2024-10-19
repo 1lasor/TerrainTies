@@ -21,7 +21,7 @@ const loginIM = () => {
 		.then(() => {
 			console.log("login success");
 			uni.navigateTo({
-				url: '/pages/chat/index'
+				url: '/pages/social_map/index'
 			})
 			console.log("page changed");
 		})
