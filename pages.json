@@ -26,9 +26,18 @@
 		},
 		{
 			"path":"pages/test/test",
+<<<<<<< HEAD
 			"style": {
 				"navigationBarTitleText": "uni-app"
 			}
+=======
+		},
+		{
+			"path":"pages/social_map/index",
+		},
+		{
+			"path":"pages/contacts/index",
+>>>>>>> e139c9641c14799c46055bed40f00439da15cbda
 		}
 	],
 	"globalStyle": {

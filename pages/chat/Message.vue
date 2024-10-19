@@ -1,6 +1,6 @@
 <template>
   <view class="message-container">
-    <view v-for="(message, index) in messageList" :key="index" class="message-item" :class="{ 'self': isSelf(message.to) }">
+    <view v-for="(message, index) in messageList" :key="index" class="message-item":style="{justifyContent: isSelf(message.to) ? 'flex-start' : 'flex-end'}">
       <p v-if="message.type==='txt'" class="message-content">{{ message.msg }}</p>
       <img v-if="message.type==='img'" :src="message.url" class="message-image" />
     </view>
@@ -18,7 +18,11 @@ const props = defineProps({
   }
 });
 
-const isSelf = (to) => EMClient.user === to || to === "";
+const isSelf = (to) => {
+	EMClient.user === to || to === "";
+	console.log(">>>>>isself",to)
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -29,9 +33,6 @@ const isSelf = (to) => EMClient.user === to || to === "";
   .message-item {
     display: flex;
     margin-bottom: 10px;
-    &.self {
-      justify-content: flex-end; // 修改消息对齐方式
-    }
     .message-content {
       max-width: 70%;
       background-color: #f3f3f3;
