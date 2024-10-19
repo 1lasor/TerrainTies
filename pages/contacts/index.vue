@@ -25,14 +25,14 @@ const ContactsStore = useContactsStore();
 const contactsList = computed(() => ContactsStore.contactsList);
 
 
-// 调用添加好友的 action
-contactsStore.addContact('userId', '加个好友呗!');
+// // 调用添加好友的 action
+// ContactsStore.addContact('userId', '加个好友呗!');
 
-// 调用接受好友请求的 action
-contactsStore.acceptContactInvite('userId');
+// // 调用接受好友请求的 action
+// ContactsStore.acceptContactInvite('userId');
 
-// 调用拒绝好友请求的 action
-contactsStore.declineContactInvite('userId');
+// // 调用拒绝好友请求的 action
+// ContactsStore.declineContactInvite('userId');
 
 const deleteContact = (userID) =>{
     const actionDeleteContact = (userID) =>{

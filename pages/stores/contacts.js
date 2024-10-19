@@ -39,28 +39,28 @@ export const useContactsStore = defineStore('contactsStore',{
         async addContact(userID, message) {
             try {
                 await EMClient.addContact(userID, message);
-                console.log('好友请求已发送');
+                console.log('>>>>好友请求已发送');
             } catch (error) {
-                console.log('添加好友失败', error);
+                console.log('>>>>添加好友失败', error);
             }
         },
         // 接受好友请求
         async acceptContactInvite(userID) {
             try {
                 await EMClient.acceptContactInvite(userID);
-                console.log('好友请求已接受');
+                console.log('>>>>好友请求已接受');
                 this.fetchAllContactsListFromServer(); // 更新联系人列表
             } catch (error) {
-                console.log('接受好友请求失败', error);
+                console.log('>>>>接受好友请求失败', error);
             }
         },
         // 拒绝好友请求
         async declineContactInvite(userID) {
             try {
                 await EMClient.declineContactInvite(userID);
-                console.log('好友请求已拒绝');
+                console.log('>>>>好友请求已拒绝');
             } catch (error) {
-                console.log('拒绝好友请求失败', error);
+                console.log('>>>>拒绝好友请求失败', error);
             }
         },
     },
