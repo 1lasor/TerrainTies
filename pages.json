@@ -1,43 +1,40 @@
 {
-	"pages": [
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "TerrainTies"
 			}
 		},
 		{
 			"path":"pages/chat/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "TerrainTies"
+			}
+		},
+		{
+			"path":"pages/test/test",
+			"style": {
+				"navigationBarTitleText": "TerrainTies"
+			}
+		},
+		{
+			"path":"pages/social_map/index",
+			"style": {
+				"navigationBarTitleText": "TerrainTies"
 			}
 		},
 		{
 			"path":"pages/contacts/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "TerrainTies"
 			}
 		},
 		{
 			"path":"pages/conversation/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "TerrainTies"
 			}
-		},
-		{
-			"path":"pages/test/test",
-<<<<<<< HEAD
-			"style": {
-				"navigationBarTitleText": "uni-app"
-			}
-=======
-		},
-		{
-			"path":"pages/social_map/index",
-		},
-		{
-			"path":"pages/contacts/index",
->>>>>>> e139c9641c14799c46055bed40f00439da15cbda
 		}
 	],
 	"globalStyle": {

@@ -1,13 +1,13 @@
 <template>
-  <div class="app-container">
+  <div class="content">
     <!-- 地图组件 -->
     <MapComponent class="map-container" />
 
     <!-- 底部导航栏 ,在这里配置按钮导向的页面，记得在pages.json先注册页面-->
     <nav class="bottom-nav">
-      <button @click="navigateTo('/pages/chat/index')">好友列表</button>
-      <button @click="navigateTo('/pages/chat/index')">附近的人</button>
-      <button @click="navigateTo('/pages/contacts/index')">消息列表</button>
+      <button @click="navigateTo('/pages/contacts/index')">好友列表</button>
+      <button @click="navigateTo('/pages/contacts/index')">附近的人</button>
+      <button @click="navigateTo('/pages/conversation/index')">消息列表</button>
       <button @click="navigateTo('/pages/chat/index')">我的主页</button>
     </nav>
   </div>
@@ -36,17 +36,17 @@ export default defineComponent({
 </script>
 
 <style>
-.app-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
+
 
 .map-container {
   flex: 1; /* 使地图组件填满除了底部导航栏之外的空间 */
 }
 
 .bottom-nav {
+  position:fixed; 
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: space-around;
   padding: 10px;
