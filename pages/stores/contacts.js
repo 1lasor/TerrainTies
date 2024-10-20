@@ -36,7 +36,7 @@ export const useContactsStore = defineStore('contactsStore',{
             }
         },
         // 添加好友
-        async addContact(userID, message) {
+        async addContactFrom(userID, message) {
             try {
                 await EMClient.addContact(userID, message);
                 console.log('>>>>好友请求已发送');
@@ -45,7 +45,7 @@ export const useContactsStore = defineStore('contactsStore',{
             }
         },
         // 接受好友请求
-        async acceptContactInvite(userID) {
+        async acceptContactInviteFrom(userID) {
             try {
                 await EMClient.acceptContactInvite(userID);
                 console.log('>>>>好友请求已接受');
@@ -55,12 +55,21 @@ export const useContactsStore = defineStore('contactsStore',{
             }
         },
         // 拒绝好友请求
-        async declineContactInvite(userID) {
+        async declineContactInviteFrom(userID) {
             try {
                 await EMClient.declineContactInvite(userID);
                 console.log('>>>>好友请求已拒绝');
             } catch (error) {
                 console.log('>>>>拒绝好友请求失败', error);
+            }
+        },
+        // 获取用户属性
+        async fetchUserInfoFromServer(userID){
+            try {
+                const res = await EMClient.fetchUserInfoById(userID);
+                console.log('>>>>获取用户属性成功',res);
+            } catch (error) {
+                console.log('>>>>获取用户属性失败',error);
             }
         },
     },

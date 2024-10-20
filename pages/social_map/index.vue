@@ -8,7 +8,7 @@
       <button @click="navigateTo('/pages/contacts/index')">好友列表</button>
       <button @click="navigateTo('/pages/contacts/index')">附近的人</button>
       <button @click="navigateTo('/pages/conversation/index')">消息列表</button>
-      <button @click="navigateTo('/pages/chat/index')">我的主页</button>
+      <button @click="navigateTo('/pages/homepage/index')">我的主页</button>
     </nav>
   </div>
 </template>

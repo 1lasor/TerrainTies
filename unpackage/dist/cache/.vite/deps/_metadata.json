@@ -1,13 +1,13 @@
 {
-  "hash": "1c8dcfb5",
-  "configHash": "7064790c",
-  "lockfileHash": "50cb6f26",
-  "browserHash": "01268981",
+  "hash": "38d1a59c",
+  "configHash": "00c6eee2",
+  "lockfileHash": "303df281",
+  "browserHash": "5a808613",
   "optimized": {
     "easemob-websdk/uniApp/Easemob-chat": {
       "src": "../../../../../node_modules/easemob-websdk/uniApp/Easemob-chat.js",
       "file": "easemob-websdk_uniApp_Easemob-chat.js",
-      "fileHash": "d2921e3d",
+      "fileHash": "7d15e966",
       "needsInterop": true
     }
   },
