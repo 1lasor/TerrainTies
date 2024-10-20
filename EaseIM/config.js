@@ -1,5 +1,5 @@
 //appkey
-export const APP_KEY = 'easemob-demo#support'
+export const APP_KEY = '1100241018149808#terrainties'
 //rest url
 export const REST_URL = 'https://a1.easemob.com'
 //socket url

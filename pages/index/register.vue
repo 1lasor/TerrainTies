@@ -7,12 +7,10 @@
 		<view class="input-area">
 			<input class="input" type="text" placeholder="请输入用户名" v-model="username" />
 			<input class="input" type="password" placeholder="请输入密码" v-model="password" />
+			<input class="input" type="password" placeholder="请确认密码" v-model="confirmPassword" />
 		</view>
 		<view>
-			<button @click="loginIM">登录</button>
-		</view>
-		<view class="register-link">
-			<text @click="navigateToRegister">没有账号？立即注册</text>
+			<button @click="registerIM">注册</button>
 		</view>
 	</view>
 </template>
@@ -24,30 +22,33 @@ import { EMClient } from '@/EaseIM';
 const title = ref('TerrainTies');
 const username = ref('');
 const password = ref('');
+const confirmPassword = ref('');
 
-const loginIM = () => {
-	// 登录环信IM
-	EMClient.open({
-		user: username.value,
-		pwd: password.value,
-	})
-		.then(() => {
-			console.log(">>>>>login success");
-			uni.navigateTo({
-				url: '/pages/social_map/index'
+const registerIM = () => {
+	if(password.value===confirmPassword.value){
+		// 注册环信
+		EMClient
+		  .registerUser({
+		    /** 用户 ID。 */
+		    username: username.value,
+		    /** 密码。 */
+		    password: password.value
+		  })
+		  .then((res) => {
+		    console.log(">>>>>注册成功",res);
+			uni.showToast({
+				title: '注册成功',
+				icon: 'none'
 			});
-			console.log(">>>>>page changed");
-		})
-		.catch((reason) => {
-			console.log(">>>>>login fail", reason);
+			uni.navigateBack()
+		  });
+	}
+	else{
+		uni.showToast({
+			title: '两次密码输入不一致',
+			icon: 'none'
 		});
-};
-
-const navigateToRegister = () => {
-	// 跳转到注册页面
-	uni.navigateTo({
-		url: '/pages/index/register'
-	});
+	}
 };
 </script>
 
@@ -91,14 +92,5 @@ const navigateToRegister = () => {
 	border-radius: 10rpx;
 	padding: 0 20rpx;
 	margin-bottom: 20rpx;
-}
-
-.register-link {
-	margin-top: 20rpx;
-}
-
-.register-link text {
-	color: blue;
-	text-decoration: underline;
 }
 </style>
