@@ -7,6 +7,17 @@
             :key="contactItem.userID"
             @longpress="deleteContact(contactItem.userID)"
         >
+            <view class="conversation_main">
+                <text class="conversation_main_name">{{ contactItem.userId }}</text>
+                <text v-if="contactItem,remark" class="conversation_main_name"
+                    >{{'('+ contactItem.remark +')'}}
+                </text>
+            </view>
+            <view v-for="invite in pendingContactInvites" :key="invite.from">
+                <text>来自 {{ invite.from }} 的好友请求: "{{ invite.status }}"</text>
+                <button @click="() => acceptInvite(invite.from)">接受</button>
+                <button @click="() => refuseInvite(invite.from)">拒绝</button>
+            </view>
         </view>
     </view>
 </template>
@@ -16,9 +27,13 @@ import { computed } from 'vue';
 import { useContactsStore } from '../stores/contacts';
 
 const ContactsStore = useContactsStore();
+ContactsStore.fetchAllContactsListFromServer();
 
 // 使用计算属性来获取 contactsList
 const contactsList = computed(() => ContactsStore.contactsList);
+
+// 使用计算属性来获取 pendingContactInvites
+const pendingContactInvites = computed(() => ContactsStore.pendingContactInvites);
 
 // 调用添加好友的 action
 const onAddContact = () => {
@@ -32,6 +47,7 @@ const onAddContact = () => {
                 // 用户点击了“添加好友”
                 const userID = res.content; // 获取输入框中的内容
                 addContact(userID);
+
             } else if (res.cancel) {
                 console.log('用户点击取消');
             }
@@ -40,21 +56,52 @@ const onAddContact = () => {
 };
 
 const addContact = (userID) =>{
-    const actionAddContact = (userID) =>{
-        console.log('>>>>申请已发送');
-        try {
-            ContactsStore.addContactFrom('userId', '加个好友呗!');
-        } catch (error) {
-            console.log('>>>>好友申请发送失败',error);
-        }
+    console.log('>>>>申请已发送');
+    try {
+        ContactsStore.addContactFrom(userID, '加个好友呗!');
+    } catch (error) {
+        console.log('>>>>好友申请发送失败',error);
     }
 }
 
-// // 调用接受好友请求的 action
-// ContactsStore.acceptContactInviteFrom('userId');
+// 调用接受好友请求的 action
+const acceptInvite = async (from) => {
+    try {
+        await ContactsStore.acceptContactInviteFrom(from);
+        console.log('>>>>好友请求已接受');
+        // 更新联系人列表
+        ContactsStore.fetchAllContactsListFromServer();
+        // 移除已接受的好友请求
+        ContactsStore.$patch((state) => {
+            const index = state.pendingContactInvites.findIndex(invite => invite.from === from);
+            if (index !== -1) {
+                state.pendingContactInvites.splice(index, 1);
+            }
+        });
+    } catch (error) {
+        console.log('>>>>接受好友请求失败', error);
+    }
+};
 
-// // 调用拒绝好友请求的 action
-// ContactsStore.declineContactInviteFrom('userId');
+
+// 调用拒绝好友请求的 action
+const refuseInvite = async (from) => {
+    try {
+        await ContactsStore.declineContactInviteFrom(from);
+        console.log('>>>>好友请求已拒绝');
+        // 更新联系人列表
+        ContactsStore.fetchAllContactsListFromServer();
+        // 移除已拒绝的好友请求
+        ContactsStore.$patch((state) => {
+            const index = state.pendingContactInvites.findIndex(invite => invite.from === from);
+            if (index !== -1) {
+                state.pendingContactInvites.splice(index, 1);
+            }
+        });
+    } catch (error) {
+        console.log('>>>>拒绝好友请求失败', error);
+    }
+};
 
 // 调用删除好友
 const deleteContact = (userID) =>{
@@ -86,5 +133,8 @@ const deleteContact = (userID) =>{
 .conversation_item {
     padding-bottom: 20rpx;
     font-size: 20px;
+    /* 添加可见性样式，例如 */
+    display: block; /* 或者 flex, grid 等 */
 }
+
 </style>

@@ -6,7 +6,7 @@
     <!-- 底部导航栏 ,在这里配置按钮导向的页面，记得在pages.json先注册页面-->
     <nav class="bottom-nav">
       <button @click="navigateTo('/pages/contacts/index')">好友列表</button>
-      <button @click="navigateTo('/pages/contacts/index')">附近的人</button>
+      <button>附近的人</button>
       <button @click="navigateTo('/pages/conversation/index')">消息列表</button>
       <button @click="navigateTo('/pages/homepage/index')">我的主页</button>
     </nav>

@@ -33,6 +33,7 @@ const ContactStore = useContactsStore();
 const getUserInfoDetails = () =>{
     const loginUserId = EMClient.user;
     ContactStore.fetchUserInfoFromServer(loginUserId);
+    console.log('>>>>userID',loginUserId);
 };
 
 

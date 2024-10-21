@@ -4,13 +4,10 @@ import { EMClient } from '../../EaseIM'
 export const useContactsStore = defineStore('contactsStore',{
     state: () =>{
         return {
-            contactsList:[
-                { userID: 'user1', remark: '好友1' },
-                { userID: 'user2', remark: '好友2' },
-                { userID: 'user3', remark: '好友3' },
-            ],
+            contactsList:[],
             blockList:[],
             cursor:'',
+            pendingContactInvites: [],
         };
     },
     actions:{
@@ -21,6 +18,7 @@ export const useContactsStore = defineStore('contactsStore',{
                 if(data?.length>0){
                     this.$state.contactsList = data;
                 }
+                console.log('>>>>联系人列表获取成功');
             }catch(error){
                 console.log('>>>>联系人列表获取失败',error);
             }
@@ -33,6 +31,13 @@ export const useContactsStore = defineStore('contactsStore',{
                 console.log('>>>>删除成功')
             }catch(error){
                 console.log('>>>>删除失败',error)
+            }
+        },
+        //添加监听
+        addPendingContactInvite(invite) {
+            const existingInvite = this.pendingContactInvites.find(item => item.from === invite.from);
+            if (!existingInvite) {
+                this.pendingContactInvites = [...this.pendingContactInvites, invite];
             }
         },
         // 添加好友
