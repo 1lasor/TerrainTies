@@ -1,22 +1,22 @@
 <template>
     <view>
         <button @click="onAddContact">添加好友</button>
+        <view v-for="invite in pendingContactInvites" :key="invite.from">
+            <text>来自 {{ invite.from }} 的好友请求: "{{ invite.status }}"</text>
+            <button @click="() => acceptInvite(invite.from)">接受</button>
+            <button @click="() => refuseInvite(invite.from)">拒绝</button>
+        </view>
         <view
             class="conversation_item"
             v-for="contactItem in contactsList"
-            :key="contactItem.userID"
-            @longpress="deleteContact(contactItem.userID)"
+            :key="contactItem.userId"
+            @longpress="deleteContact(contactItem.userId)"
         >
             <view class="conversation_main">
                 <text class="conversation_main_name">{{ contactItem.userId }}</text>
-                <text v-if="contactItem,remark" class="conversation_main_name"
+                <text v-if="contactItem.remark" class="conversation_main_name"
                     >{{'('+ contactItem.remark +')'}}
                 </text>
-            </view>
-            <view v-for="invite in pendingContactInvites" :key="invite.from">
-                <text>来自 {{ invite.from }} 的好友请求: "{{ invite.status }}"</text>
-                <button @click="() => acceptInvite(invite.from)">接受</button>
-                <button @click="() => refuseInvite(invite.from)">拒绝</button>
             </view>
         </view>
     </view>
@@ -47,7 +47,6 @@ const onAddContact = () => {
                 // 用户点击了“添加好友”
                 const userID = res.content; // 获取输入框中的内容
                 addContact(userID);
-
             } else if (res.cancel) {
                 console.log('用户点击取消');
             }
@@ -105,14 +104,6 @@ const refuseInvite = async (from) => {
 
 // 调用删除好友
 const deleteContact = (userID) =>{
-    const actionDeleteContact = (userID) =>{
-        console.log('>>>>删除成功')
-        try{
-            ContactsStore.deleteContactFrom(userID);
-        }catch(error){
-            console.log('>>>>删除失败',error);
-        }
-    };
     uni.showModal({
         title:'删除好友',
         content:'确定删除该好友吗？',
@@ -125,6 +116,15 @@ const deleteContact = (userID) =>{
             }
         },
     });
+};
+
+const actionDeleteContact = async (userID) =>{
+    try{
+        await ContactsStore.deleteContactFrom(userID);
+        console.log('>>>>>>删除成功');
+    }catch(error){
+        console.log('>>>>>>删除失败',error);
+    }
 };
 
 </script>

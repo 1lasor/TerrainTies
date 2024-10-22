@@ -5,7 +5,6 @@ export const useContactsStore = defineStore('contactsStore',{
     state: () =>{
         return {
             contactsList:[],
-            blockList:[],
             cursor:'',
             pendingContactInvites: [],
         };
@@ -26,11 +25,12 @@ export const useContactsStore = defineStore('contactsStore',{
         //删除好友
         async deleteContactFrom(userID){
             try{
+                console.log('???????????????????',userID);
                 await EMClient.deleteContact(userID);
                 this.fetchAllContactsListFromServer();
-                console.log('>>>>删除成功')
+                console.log('>>>>删除成功');
             }catch(error){
-                console.log('>>>>删除失败',error)
+                console.log('>>>>删除失败',error);
             }
         },
         //添加监听
