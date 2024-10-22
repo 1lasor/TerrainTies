@@ -134,7 +134,9 @@ const actionDeleteContact = async (userID) =>{
 //跳转至会话界面
 const navigateTo = (route) => {
     try {
-        router.push(route);
+        uni.navigateTo({
+        	url:route
+        });
         console.log('>>>>跳转至会话界面');
     } catch (error) {
         console.log('>>>>跳转失败',error);

@@ -13,6 +13,10 @@
 						<cover-image class="cover-image" src="/static/dingwei.png"></cover-image>
 						<cover-view>定位</cover-view>
 					</cover-view>
+					<cover-view @click="getUserLocation('qwer')">
+						<cover-image class="cover-image" src="/static/logo.png"></cover-image>
+						<cover-view>测试定位</cover-view>
+					</cover-view>
 				</cover-view>
 			</map>
 		</view>
