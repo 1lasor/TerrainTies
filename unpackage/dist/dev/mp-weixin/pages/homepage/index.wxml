@@ -1,0 +1,1 @@
+<view><button bindtap="{{a}}">设置用户属性</button></view><view><button bindtap="{{b}}">获取指定用户属性</button></view>

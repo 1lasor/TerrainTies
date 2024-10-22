@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "TerrainTies",
+  "usingComponents": {
+    "message": "./Message",
+    "input-bar": "./inputBar"
+  }
+}

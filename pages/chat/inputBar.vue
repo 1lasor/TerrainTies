@@ -188,6 +188,4 @@
 		border-bottom-right-radius: 5px; // 只添加底部右圆角
 		outline: none; // 移除焦点时的外边框
 	}
-
-	// 移除原有的.grid-template-columns和.grid-template-rows，因为不再需要
 </style>

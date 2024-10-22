@@ -1,0 +1,8 @@
+
+.conversation_item {
+    padding-bottom: 20rpx;
+    font-size: 20px;
+    /* 添加可见性样式，例如 */
+    display: block; /* 或者 flex, grid 等 */
+}
+
