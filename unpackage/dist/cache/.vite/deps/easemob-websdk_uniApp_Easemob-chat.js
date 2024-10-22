@@ -3,9 +3,9 @@ var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
 
-// ../../../../PROJECTS/uniapp/TerrainTies/node_modules/easemob-websdk/uniApp/Easemob-chat.js
+// ../../../编程/系统设计/TerrainTies/node_modules/easemob-websdk/uniApp/Easemob-chat.js
 var require_Easemob_chat = __commonJS({
-  "../../../../PROJECTS/uniapp/TerrainTies/node_modules/easemob-websdk/uniApp/Easemob-chat.js"(exports, module) {
+  "../../../编程/系统设计/TerrainTies/node_modules/easemob-websdk/uniApp/Easemob-chat.js"(exports, module) {
     !function(e, t) {
       "object" == typeof exports && "object" == typeof module ? module.exports = t() : "function" == typeof define && define.amd ? define([], t) : "object" == typeof exports ? exports.websdk = t() : e.websdk = t();
     }(self, function() {

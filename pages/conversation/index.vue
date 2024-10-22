@@ -7,7 +7,6 @@
             @longpress="callConversationActionSheet(conversationItem)"
             @click="clearConversationUnReadCount(conversationItem)"
         >
-
         </view>
     </view>
 </template>
@@ -17,11 +16,17 @@
 <script setup>
 import { computed } from 'vue';
 import { useConversationStore } from '../stores/conversation';
+import { useContactsStore } from '../stores/contacts';
 
 const ConversationStore = useConversationStore();
+const ContactsStore = useContactsStore();
 console.log('ConversationStore',ConversationStore.conversationList);
+const contactsList = computed(() => ContactsStore.contactsList);
 const conversationList = computed(() => ConversationStore.conversationList);
 ConversationStore.fetchConversationListFromServer();
+
+//创建新会话
+
 
 //清除未读消息
 const clearConversationUnReadCount = (conversationItem)=>{

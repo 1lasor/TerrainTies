@@ -1,11 +1,11 @@
 <template>
-	    <view class="input_bar_container">
-		        <view class="input_more_func">
-			            <view class="more_func_button" @click="chooseImage">上传图片</view>
-			    </view>
-		        <input v-model="msgContent" class="message_input" type="text" cursor-spacing="20" placeholder="..."
+	<view class="input_bar_container">
+		<view class="input_more_func">
+			<view class="more_func_button" @click="chooseImage">上传图片</view>
+		</view>
+		<input v-model="msgContent" class="message_input" type="text" cursor-spacing="20" placeholder="..."
 			conformtype="send" @confirm="sendTextMessage">
-		    </view>
+	</view>
 </template>
 
 <script setup>
