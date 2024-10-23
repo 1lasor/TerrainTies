@@ -76,5 +76,28 @@ export const useContactsStore = defineStore('contactsStore',{
                 console.log('>>>>获取用户属性失败',error);
             }
         },
+        // 设置当前用户属性
+        async setLoginUserInfo(content){
+            try {
+                let option = {
+                    phone: content,
+                    // age:content,
+                    // avatarurl: "https://avatarurl",
+                    // mail: "123@qq.com",
+                    // phone: "16888888888",
+                    gender: content,
+                    // birth: "2000-01-01",
+                    // sign: "a sign",
+                    // ext: JSON.stringify({
+                    //   nationality: "China",
+                    //   merit: "Hello, world！",
+                    // }),
+                };
+                await EMClient.updateUserInfo(option);
+                console.log('>>>>修改成功');
+            } catch (error) {
+                console.log('>>>>修改失败',error);
+            }
+        },
     },
 });

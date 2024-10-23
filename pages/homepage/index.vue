@@ -10,10 +10,12 @@
 <script setup>
 import { EMClient } from '../../EaseIM';
 import { useContactsStore } from '../stores/contacts';
+const ContactStore = useContactsStore();
 
 const setUserInfoData = () =>{
     const actionModifyRemark = (content) => {
         console.log('>>>>执行设置');
+        ContactStore.setLoginUserInfo(content);
     };
     uni.showModal({
         title:'设置用户属性',
@@ -29,7 +31,6 @@ const setUserInfoData = () =>{
     });
 }
 
-const ContactStore = useContactsStore();
 const getUserInfoDetails = () =>{
     const loginUserId = EMClient.user;
     ContactStore.fetchUserInfoFromServer(loginUserId);
