@@ -5,7 +5,6 @@ const useContactsStore = common_vendor.defineStore("contactsStore", {
   state: () => {
     return {
       contactsList: [],
-      blockList: [],
       cursor: "",
       pendingContactInvites: []
     };
@@ -15,7 +14,7 @@ const useContactsStore = common_vendor.defineStore("contactsStore", {
       try {
         const { data } = await EaseIM_index.EMClient.getAllContacts();
         console.log(">>>>>", data);
-        if ((data == null ? void 0 : data.length) > 0) {
+        if ((data == null ? void 0 : data.length) >= 0) {
           this.$state.contactsList = data;
         }
         console.log(">>>>联系人列表获取成功");

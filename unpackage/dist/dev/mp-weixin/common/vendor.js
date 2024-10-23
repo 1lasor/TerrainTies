@@ -18097,6 +18097,32 @@ This will fail in production.`);
   useStore.$id = id;
   return useStore;
 }
+/*!
+  * vue-router v4.3.0
+  * (c) 2024 Eduardo San Martin Morote
+  * @license MIT
+  */
+var NavigationType;
+(function(NavigationType2) {
+  NavigationType2["pop"] = "pop";
+  NavigationType2["push"] = "push";
+})(NavigationType || (NavigationType = {}));
+var NavigationDirection;
+(function(NavigationDirection2) {
+  NavigationDirection2["back"] = "back";
+  NavigationDirection2["forward"] = "forward";
+  NavigationDirection2["unknown"] = "";
+})(NavigationDirection || (NavigationDirection = {}));
+var NavigationFailureType;
+(function(NavigationFailureType2) {
+  NavigationFailureType2[NavigationFailureType2["aborted"] = 4] = "aborted";
+  NavigationFailureType2[NavigationFailureType2["cancelled"] = 8] = "cancelled";
+  NavigationFailureType2[NavigationFailureType2["duplicated"] = 16] = "duplicated";
+})(NavigationFailureType || (NavigationFailureType = {}));
+const routerKey = Symbol("router");
+function useRouter() {
+  return inject(routerKey);
+}
 exports.EasemobSDK = EasemobSDK;
 exports._export_sfc = _export_sfc;
 exports.computed = computed;
@@ -18113,3 +18139,4 @@ exports.p = p;
 exports.ref = ref;
 exports.t = t;
 exports.unref = unref;
+exports.useRouter = useRouter;

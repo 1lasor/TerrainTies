@@ -14,17 +14,34 @@ const useConversationStore = common_vendor.defineStore("conversationStore", {
       var _a;
       try {
         const { data } = await EaseIM_index.EMClient.getServerConversations({
-          pageSize: 10,
+          pageSize: 100,
           cursor: ""
         });
-        if (((_a = data == null ? void 0 : data.conversations) == null ? void 0 : _a.length) > 0) {
+        if (((_a = data == null ? void 0 : data.conversations) == null ? void 0 : _a.length) >= 0) {
           this.$state.conversationList = data.conversations;
         }
         if (data == null ? void 0 : data.cursor) {
           this.$state.cursor = data.cursor;
         }
+        console.log(">>>>会话列表获取成功");
       } catch (error) {
         console.log(">>>>会话列表获取失败", error);
+      }
+    },
+    // 创建会话
+    async createConversation(parmas) {
+      const { conversationType, memberId } = parmas;
+      try {
+        let conversation = await EaseIM_index.EMClient.createConversation({
+          type: conversationType,
+          // 'singleChat' 或 'groupChat'
+          members: [memberId]
+          // 参与会话的用户ID列表
+        });
+        this.$state.conversationList.push(conversation);
+        console.log(">>>>会话创建成功");
+      } catch (error) {
+        console.log(">>>>会话创建失败", error);
       }
     },
     //清除会话未读数

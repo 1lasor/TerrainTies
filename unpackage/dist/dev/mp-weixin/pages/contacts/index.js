@@ -4,6 +4,7 @@ const pages_stores_contacts = require("../stores/contacts.js");
 const _sfc_main = {
   __name: "index",
   setup(__props) {
+    common_vendor.useRouter();
     const ContactsStore = pages_stores_contacts.useContactsStore();
     ContactsStore.fetchAllContactsListFromServer();
     const contactsList = common_vendor.computed(() => ContactsStore.contactsList);
@@ -64,14 +65,6 @@ const _sfc_main = {
       }
     };
     const deleteContact = (userID) => {
-      const actionDeleteContact = (userID2) => {
-        console.log(">>>>删除成功");
-        try {
-          ContactsStore.deleteContactFrom(userID2);
-        } catch (error) {
-          console.log(">>>>删除失败", error);
-        }
-      };
       common_vendor.index.showModal({
         title: "删除好友",
         content: "确定删除该好友吗？",
@@ -85,27 +78,46 @@ const _sfc_main = {
         }
       });
     };
+    const actionDeleteContact = async (userID) => {
+      try {
+        await ContactsStore.deleteContactFrom(userID);
+        console.log(">>>>>>删除成功");
+      } catch (error) {
+        console.log(">>>>>>删除失败", error);
+      }
+    };
+    const navigateTo = (route) => {
+      try {
+        common_vendor.index.navigateTo({
+          url: route
+        });
+        console.log(">>>>跳转至会话界面");
+      } catch (error) {
+        console.log(">>>>跳转失败", error);
+      }
+    };
     return (_ctx, _cache) => {
       return {
         a: common_vendor.o(onAddContact),
-        b: common_vendor.f(contactsList.value, (contactItem, k0, i0) => {
+        b: common_vendor.f(pendingContactInvites.value, (invite, k0, i0) => {
+          return {
+            a: common_vendor.t(invite.from),
+            b: common_vendor.t(invite.status),
+            c: common_vendor.o(() => acceptInvite(invite.from), invite.from),
+            d: common_vendor.o(() => refuseInvite(invite.from), invite.from),
+            e: invite.from
+          };
+        }),
+        c: common_vendor.f(contactsList.value, (contactItem, k0, i0) => {
           return common_vendor.e({
             a: common_vendor.t(contactItem.userId),
-            b: _ctx.remark
-          }, _ctx.remark ? {
+            b: contactItem.remark
+          }, contactItem.remark ? {
             c: common_vendor.t("(" + contactItem.remark + ")")
           } : {}, {
-            d: common_vendor.f(pendingContactInvites.value, (invite, k1, i1) => {
-              return {
-                a: common_vendor.t(invite.from),
-                b: common_vendor.t(invite.status),
-                c: common_vendor.o(() => acceptInvite(invite.from), invite.from),
-                d: common_vendor.o(() => refuseInvite(invite.from), invite.from),
-                e: invite.from
-              };
-            }),
-            e: contactItem.userID,
-            f: common_vendor.o(($event) => deleteContact(contactItem.userID), contactItem.userID)
+            d: contactItem.userId,
+            e: common_vendor.o(($event) => navigateTo("/pages/chat/index"), contactItem.userId),
+            f: common_vendor.o(($event) => deleteContact(contactItem.userId), contactItem.userId)
           });
         })
       };
