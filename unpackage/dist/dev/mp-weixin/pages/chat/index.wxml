@@ -1,1 +1,0 @@
-<view class="chat-container data-v-5a559478"><message wx:if="{{a}}" class="data-v-5a559478" u-i="5a559478-0" bind:__l="__l" u-p="{{a}}"/><input-bar class="data-v-5a559478" bindappendMessage="{{b}}" u-i="5a559478-1" bind:__l="__l"/></view>

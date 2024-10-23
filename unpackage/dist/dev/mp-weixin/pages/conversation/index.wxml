@@ -1,1 +1,0 @@
-<view><view wx:for="{{a}}" wx:for-item="conversationItem" wx:key="a" class="conversation_item" bindlongpress="{{conversationItem.b}}" bindtap="{{conversationItem.c}}"></view></view>

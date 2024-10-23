@@ -1,1 +1,0 @@
-<view class="message-container data-v-394f3b8c"><view wx:for="{{a}}" wx:for-item="message" wx:key="e" class="message-item data-v-394f3b8c" style="{{'justify-content:' + message.f}}"><view wx:if="{{message.a}}" class="message-content data-v-394f3b8c">{{message.b}}</view><image wx:if="{{message.c}}" src="{{message.d}}" class="message-image data-v-394f3b8c"/></view></view>
