@@ -44,15 +44,27 @@ const _sfc_main = {
       });
       EaseIM_index.EMClient.addEventHandler("message", {
         // 当前用户收到文本消息。
-        onTextMessage: function(message) {
-          console.log(">>>>>", message);
+        onTextMessage: (message) => {
+          console.log(">>>>", message);
+          common_vendor.index.$emit("onTextMessage", message);
         },
         // 当前用户收到图片消息。
         onImageMessage: function(message) {
         },
         // 当前用户收到透传消息。
         onCmdMessage: function(message) {
+        },
+        // // 当前用户收到语音消息。
+        // onAudioMessage: function (message) {},
+        // // 当前用户收到位置消息。
+        // onLocationMessage: function (message) {},
+        // // 当前用户收到文件消息。
+        // onFileMessage: function (message) {},
+        // 当前用户收到自定义消息。
+        onCustomMessage: function(message) {
         }
+        // // 当前用户收到视频消息。
+        // onVideoMessage: function (message) {},
       });
       EaseIM_index.EMClient.addEventHandler("contacts", {
         // 当前用户收到好友请求。用户 B 向用户 A 发送好友请求，用户 A 收到该事件。

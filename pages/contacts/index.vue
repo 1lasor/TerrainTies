@@ -10,7 +10,7 @@
             class="conversation_item"
             v-for="contactItem in contactsList"
             :key="contactItem.userId"
-            @click="navigateTo('/pages/chat/index')"
+            @click="navigateToChat(contactItem.userId)"
             @longpress="deleteContact(contactItem.userId)"
         >
             <view class="conversation_main">
@@ -26,9 +26,6 @@
 <script setup>
 import { computed } from 'vue';
 import { useContactsStore } from '../stores/contacts';
-import { useRouter } from 'vue-router'; 
-
-const router = useRouter();
 
 const ContactsStore = useContactsStore();
 ContactsStore.fetchAllContactsListFromServer();
@@ -131,18 +128,17 @@ const actionDeleteContact = async (userID) =>{
     }
 };
 
-//跳转至会话界面
-const navigateTo = (route) => {
-    try {
-        uni.navigateTo({
-        	url:route
-        });
-        console.log('>>>>跳转至会话界面');
-    } catch (error) {
-        console.log('>>>>跳转失败',error);
-    }
-
+const navigateToChat = (userId) => {
+  try {
+    uni.navigateTo({
+      url: `/pages/chat/index?userId=${encodeURIComponent(userId)}`
+    });
+    console.log('>>>>跳转至会话界面');
+  } catch (error) {
+    console.log('>>>>跳转失败', error);
+  }
 };
+
 
 </script>
 

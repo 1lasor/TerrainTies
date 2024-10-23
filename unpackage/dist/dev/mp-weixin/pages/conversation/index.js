@@ -1,14 +1,25 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const pages_stores_conversation = require("../stores/conversation.js");
+const pages_stores_contacts = require("../stores/contacts.js");
 const _sfc_main = {
   __name: "index",
   setup(__props) {
     const ConversationStore = pages_stores_conversation.useConversationStore();
+    const ContactsStore = pages_stores_contacts.useContactsStore();
     console.log("ConversationStore", ConversationStore.conversationList);
+    common_vendor.computed(() => ContactsStore.contactsList);
     const conversationList = common_vendor.computed(() => ConversationStore.conversationList);
     ConversationStore.fetchConversationListFromServer();
     const clearConversationUnReadCount = (conversationItem) => {
+      try {
+        common_vendor.index.navigateTo({
+          url: `/pages/chat/index?userId=${encodeURIComponent(conversationItem.conversationId)}`
+        });
+        console.log(">>>>跳转至会话界面");
+      } catch (error) {
+        console.log(">>>>跳转失败", error);
+      }
       if (conversationItem.unReadCount > 0) {
         ConversationStore.clearConversationUnReadCount({
           conversationId: conversationItem.conversationId,
@@ -60,11 +71,16 @@ const _sfc_main = {
     return (_ctx, _cache) => {
       return {
         a: common_vendor.f(conversationList.value, (conversationItem, k0, i0) => {
-          return {
-            a: conversationItem.userID,
-            b: common_vendor.o(($event) => callConversationActionSheet(conversationItem), conversationItem.userID),
-            c: common_vendor.o(($event) => clearConversationUnReadCount(conversationItem), conversationItem.userID)
-          };
+          return common_vendor.e({
+            a: common_vendor.t(conversationItem.conversationId),
+            b: conversationItem.lastMessage
+          }, conversationItem.lastMessage ? {
+            c: common_vendor.t("(" + conversationItem.lastMessage + ")")
+          } : {}, {
+            d: conversationItem.conversationId,
+            e: common_vendor.o(($event) => callConversationActionSheet(conversationItem), conversationItem.conversationId),
+            f: common_vendor.o(($event) => clearConversationUnReadCount(conversationItem), conversationItem.conversationId)
+          });
         })
       };
     };

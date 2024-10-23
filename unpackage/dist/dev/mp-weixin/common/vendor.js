@@ -18109,6 +18109,7 @@ exports.f = f;
 exports.index = index;
 exports.isRef = isRef;
 exports.o = o;
+exports.onMounted = onMounted;
 exports.p = p;
 exports.ref = ref;
 exports.t = t;

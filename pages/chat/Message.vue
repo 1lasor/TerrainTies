@@ -19,8 +19,8 @@ const props = defineProps({
 });
 
 const isSelf = (to) => {
-	EMClient.user === to || to === "";
-	console.log(">>>>>isself",to)
+  console.log('>>>>>isself',to);
+  return EMClient.user === to || to === "";
 }
 
 </script>

@@ -1,7 +1,7 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const EaseIM_index = require("../../EaseIM/index.js");
 const common_assets = require("../../common/assets.js");
-require("/common/qqmap-wx-jssdk.js");
 const _sfc_main = common_vendor.defineComponent({
   name: "HomePage",
   data() {
@@ -60,26 +60,69 @@ const _sfc_main = common_vendor.defineComponent({
         success: (res) => {
           this.latitude = res.latitude;
           this.longitude = res.longitude;
+          this.updateUserInfoWithLocation();
+        },
+        fail: (err) => {
+          console.error("获取位置失败:", err);
         }
+      });
+    },
+    updateUserInfoWithLocation() {
+      let option = {
+        ext: JSON.stringify({
+          latitude: this.latitude,
+          longitude: this.longitude
+        })
+      };
+      EaseIM_index.EMClient.updateUserInfo(option).then((res) => {
+        console.log(">>>>>用户位置信息更新成功:", res);
+      }).catch((err) => {
+        console.error(">>>>>更新用户位置信息失败:", err);
+      });
+    },
+    getUserLocation(user) {
+      return new Promise((resolve, reject) => {
+        EaseIM_index.EMClient.fetchUserInfoById(user).then((res) => {
+          if (res.data && res.data[user] && res.data[user]["ext"]) {
+            try {
+              let ext = JSON.parse(res.data[user]["ext"]);
+              console.log(">>>>>获取用户信息（位置）:", ext.latitude, ext.longitude);
+              resolve({
+                latitude: ext.latitude,
+                longitude: ext.longitude
+              });
+            } catch (error) {
+              console.error("解析用户扩展信息失败:", error);
+              reject(error);
+            }
+          } else {
+            console.log("没有找到用户的位置信息");
+            reject(new Error("位置信息不存在"));
+          }
+        }).catch((err) => {
+          console.error("获取用户信息失败:", err);
+          reject(err);
+        });
+        console.log(">>>>>刷新");
       });
     },
     refresh() {
       this.getLocation();
-      console.log("刷新");
+      console.log(">>>>>刷新");
     },
     onControltap() {
       this.getLocation();
       common_vendor.index.createMapContext("map", this).moveToLocation();
-      console.log("定位");
+      console.log(">>>>>定位");
       common_vendor.index.showModal({
         title: "提示",
         content: "当前纬度" + this.latitude + "当前经度" + this.longitude
       });
-    }
+    },
     // 其他方法...
-  },
-  onShow() {
-    this.getLocation();
+    onShow() {
+      this.getLocation();
+    }
   }
 });
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -88,14 +131,16 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     b: common_vendor.o((...args) => _ctx.refresh && _ctx.refresh(...args)),
     c: common_assets._imports_1,
     d: common_vendor.o((...args) => _ctx.onControltap && _ctx.onControltap(...args)),
-    e: _ctx.latitude,
-    f: _ctx.longitude,
-    g: _ctx.marker,
-    h: _ctx.scale,
-    i: common_vendor.o((...args) => _ctx.markertap && _ctx.markertap(...args)),
-    j: common_vendor.o(($event) => _ctx.navigateTo("/pages/contacts/index")),
-    k: common_vendor.o(($event) => _ctx.navigateTo("/pages/conversation/index")),
-    l: common_vendor.o(($event) => _ctx.navigateTo("/pages/homepage/index"))
+    e: common_assets._imports_2,
+    f: common_vendor.o(($event) => _ctx.getUserLocation("qwer")),
+    g: _ctx.latitude,
+    h: _ctx.longitude,
+    i: _ctx.marker,
+    j: _ctx.scale,
+    k: common_vendor.o((...args) => _ctx.markertap && _ctx.markertap(...args)),
+    l: common_vendor.o(($event) => _ctx.navigateTo("/pages/contacts/index")),
+    m: common_vendor.o(($event) => _ctx.navigateTo("/pages/conversation/index")),
+    n: common_vendor.o(($event) => _ctx.navigateTo("/pages/homepage/index"))
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-55d825cb"]]);

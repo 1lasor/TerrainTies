@@ -1,11 +1,18 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const EaseIM_index = require("../../EaseIM/index.js");
-const targetId = "test1";
+require("../stores/conversation.js");
 const _sfc_main = {
   __name: "inputBar",
+  props: {
+    targetId: {
+      type: String,
+      required: true
+    }
+  },
   emits: ["appendMessage"],
   setup(__props, { emit: __emit }) {
+    const props = __props;
     const emits = __emit;
     let msgContent = common_vendor.ref("");
     const sendTextMessage = (message) => {
@@ -15,7 +22,7 @@ const _sfc_main = {
         // 消息内容。
         msg: msgContent.value,
         // 消息接收方：单聊为对方用户 ID，群聊和聊天室分别为群组 ID 和聊天室 ID。
-        to: targetId,
+        to: props.targetId,
         // 会话类型：单聊、群聊和聊天室分别为 `singleChat`、`groupChat` 和 `chatRoom`，默认为单聊。
         chatType: "singleChat"
       };

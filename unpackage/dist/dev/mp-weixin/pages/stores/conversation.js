@@ -14,15 +14,17 @@ const useConversationStore = common_vendor.defineStore("conversationStore", {
       var _a;
       try {
         const { data } = await EaseIM_index.EMClient.getServerConversations({
-          pageSize: 10,
+          pageSize: 100,
           cursor: ""
         });
-        if (((_a = data == null ? void 0 : data.conversations) == null ? void 0 : _a.length) > 0) {
+        console.log(">>>>", data);
+        if (((_a = data == null ? void 0 : data.conversations) == null ? void 0 : _a.length) >= 0) {
           this.$state.conversationList = data.conversations;
         }
         if (data == null ? void 0 : data.cursor) {
           this.$state.cursor = data.cursor;
         }
+        console.log(">>>>会话列表获取成功");
       } catch (error) {
         console.log(">>>>会话列表获取失败", error);
       }

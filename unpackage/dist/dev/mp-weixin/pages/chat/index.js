@@ -7,11 +7,23 @@ const Message = () => "./Message.js";
 const InputBar = () => "./inputBar.js";
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "index",
+  props: {
+    userId: {
+      type: String,
+      default: "",
+      required: true
+    }
+  },
   setup(__props) {
     const messageList = common_vendor.ref([]);
     const appendMessage = (message) => {
       messageList.value.push(message);
     };
+    common_vendor.onMounted(() => {
+      common_vendor.index.$on("onTextMessage", (message) => {
+        appendMessage(message);
+      });
+    });
     common_vendor.ref(null);
     common_vendor.ref("");
     common_vendor.ref(false);
@@ -20,7 +32,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         a: common_vendor.p({
           messageList: messageList.value
         }),
-        b: common_vendor.o(appendMessage)
+        b: common_vendor.o(appendMessage),
+        c: common_vendor.p({
+          targetId: __props.userId
+        })
       };
     };
   }

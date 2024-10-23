@@ -3,10 +3,16 @@
         <view
             class="conversation_item"
             v-for="conversationItem in conversationList"
-            :key="conversationItem.userID"
+            :key="conversationItem.conversationId"
             @longpress="callConversationActionSheet(conversationItem)"
             @click="clearConversationUnReadCount(conversationItem)"
         >
+            <view class="conversation_main">
+                <text class="conversation_main_name">{{ conversationItem.conversationId }}</text>
+                <text v-if="conversationItem.lastMessage" class="conversation_main_name"
+                    >{{'('+ conversationItem.lastMessage +')'}}
+                </text>
+            </view>
         </view>
     </view>
 </template>
@@ -25,11 +31,16 @@ const contactsList = computed(() => ContactsStore.contactsList);
 const conversationList = computed(() => ConversationStore.conversationList);
 ConversationStore.fetchConversationListFromServer();
 
-//创建新会话
-
-
 //清除未读消息
 const clearConversationUnReadCount = (conversationItem)=>{
+    try {
+        uni.navigateTo({
+            url: `/pages/chat/index?userId=${encodeURIComponent(conversationItem.conversationId)}`
+        });
+        console.log('>>>>跳转至会话界面');
+    } catch (error) {
+        console.log('>>>>跳转失败', error);
+    }
     if(conversationItem.unReadCount>0){
         ConversationStore.clearConversationUnReadCount({
             conversationId: conversationItem.conversationId,

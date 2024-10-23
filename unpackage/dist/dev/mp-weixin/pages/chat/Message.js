@@ -11,8 +11,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   },
   setup(__props) {
     const isSelf = (to) => {
-      EaseIM_index.EMClient.user === to || to === "";
       console.log(">>>>>isself", to);
+      return EaseIM_index.EMClient.user === to || to === "";
     };
     return (_ctx, _cache) => {
       return {
