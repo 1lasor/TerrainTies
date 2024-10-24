@@ -76,6 +76,11 @@
 	}
 </script>
 
-<style>
-	/*每个页面公共css */
+<style>/*每个页面公共css */
+uni-page-wrapper {
+  background-image: url('../static/login_background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 </style>
