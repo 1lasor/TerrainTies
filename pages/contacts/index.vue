@@ -15,9 +15,6 @@
         >
             <view class="conversation_main">
                 <text class="conversation_main_name">{{ contactItem.userId }}</text>
-                <text v-if="contactItem.remark" class="conversation_main_name"
-                    >{{'('+ contactItem.remark +')'}}
-                </text>
             </view>
         </view>
     </view>

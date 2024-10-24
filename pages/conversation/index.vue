@@ -9,8 +9,8 @@
         >
             <view class="conversation_main">
                 <text class="conversation_main_name">{{ conversationItem.conversationId }}</text>
-                <text v-if="conversationItem.lastMessage" class="conversation_main_name"
-                    >{{'('+ conversationItem.lastMessage +')'}}
+                <text v-if="conversationItem.lastMessage.msg" class="conversation_main_name"
+                    >{{'('+ conversationItem.lastMessage.msg +')'}}
                 </text>
             </view>
         </view>
@@ -22,12 +22,9 @@
 <script setup>
 import { computed } from 'vue';
 import { useConversationStore } from '../stores/conversation';
-import { useContactsStore } from '../stores/contacts';
 
 const ConversationStore = useConversationStore();
-const ContactsStore = useContactsStore();
 console.log('ConversationStore',ConversationStore.conversationList);
-const contactsList = computed(() => ContactsStore.contactsList);
 const conversationList = computed(() => ConversationStore.conversationList);
 ConversationStore.fetchConversationListFromServer();
 
@@ -99,8 +96,24 @@ const callConversationActionSheet = (conversationItem) =>{
 
 
 <style>
+.conversation_main_name, .conversation_main_msg {
+    display: block; /* 使得每个 text 元素独占一行 */
+    font-size: 20px;
+}
+
 .conversation_item {
     padding-bottom: 20rpx;
     font-size: 20px;
+}
+
+.conversation_main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20rpx;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #eaeaea;
+    border-radius: 10rpx;
+    margin: 10rpx 0;
 }
 </style>

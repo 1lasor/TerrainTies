@@ -80,13 +80,11 @@ export const useContactsStore = defineStore('contactsStore',{
         async setLoginUserInfo(content){
             try {
                 let option = {
-                    phone: content,
-                    // age:content,
-                    // avatarurl: "https://avatarurl",
+                    avatarurl: content.avatarurl,
+                    gender: content.gender,
+                    phone: content.phone,
                     // mail: "123@qq.com",
-                    // phone: "16888888888",
-                    gender: content,
-                    // birth: "2000-01-01",
+                    birth: content.birth,
                     // sign: "a sign",
                     // ext: JSON.stringify({
                     //   nationality: "China",

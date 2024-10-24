@@ -30,6 +30,8 @@ const isSelf = (to) => {
   display: flex;
   flex-direction: column;
   padding: 10px;
+  max-height: 70vh; // 设置最大高度，留出空间给输入框
+  overflow-y: auto; // 允许垂直方向滚动
   .message-item {
     display: flex;
     margin-bottom: 10px;

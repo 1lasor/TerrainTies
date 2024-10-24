@@ -43,6 +43,12 @@
 			}
 		},
 		{
+			"path":"pages/homepage/changeData",
+			"style": {
+				"navigationBarTitleText": "TerrainTies"
+			}
+		},
+		{
 			"path":"pages/index/register",
 			"style": {
 				"navigationBarTitleText": "TerrainTies"
