@@ -3,7 +3,7 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "TerrainTies"
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -20,8 +20,11 @@
 		},
 		{
 			"path":"pages/social_map/index",
+	
 			"style": {
-				"navigationBarTitleText": "TerrainTies"
+				"navigationBarTitleText": "TerrainTies",
+				"navigationStyle": "custom",
+				"disableSwipeBack": true
 			}
 		},
 		{
@@ -51,8 +54,8 @@
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarTitleText": "TerrainTies",
+		"navigationBarBackgroundColor": "#ffd503",
 		"backgroundColor": "#F8F8F8"
 	},
 	"uniIdRouter": {}

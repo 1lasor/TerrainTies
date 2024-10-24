@@ -1,5 +1,5 @@
 <template>
-	<view class="content">
+	<page class="content">
 		<image class="logo" src="/static/TerrainTies_Logo.png"></image>
 		<view class="text-area">
 			<text class="title">{{ title }}</text>
@@ -14,7 +14,7 @@
 		<view class="register-link">
 			<text @click="navigateToRegister">没有账号？立即注册</text>
 		</view>
-	</view>
+	</page>
 </template>
 
 <script setup>
@@ -53,6 +53,8 @@ const navigateToRegister = () => {
 
 <style>
 .content {
+	width: 100%;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

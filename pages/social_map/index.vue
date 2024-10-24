@@ -1,5 +1,10 @@
 <template>
 	<div class="content">
+		<view class="custom-navbar">
+			<view class="title">
+			  <text>TerrainTies</text>
+			</view>
+		</view>
 		<!-- 地图组件 -->
 		<view class="map-container">
 			<map style="width: 100%; height: 90vh;" :show-location='true' ref="map" id="map" :latitude="latitude"
@@ -152,6 +157,26 @@
 </script>
 
 <style scoped>
+	.title{
+		position: absolute;
+		left: 70px;
+		right: 70px;
+		min-width: 0;
+		font-weight: 600;
+	}
+	.custom-navbar {
+		position: relative;
+	    height: calc(44px + env(safe-area-inset-top));
+	    padding-top: calc(11px + env(safe-area-inset-top));
+	    display: flex;
+	    overflow: hidden;
+	    justify-content: normal;
+	    box-sizing: border-box;
+	    z-index: 998;
+	    color: #000000;
+	    background-color: #ffd503;
+	    text-align: center;
+	}
 	.map-container {
 		margin-top: -40rpx;
 		position: relative;
@@ -200,4 +225,5 @@
 		border-radius: 5px;
 		cursor: pointer;
 	}
+
 </style>

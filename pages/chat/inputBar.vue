@@ -139,7 +139,7 @@ const sendImagesMessage = (res,{imageName,width,height,imageType}) => {
 		height: height,
 		url: resData.uri + "/" + resData.entities[0].uuid,
 		// 消息接收方：单聊为对方用户 ID，群聊和聊天室分别为群组 ID 和聊天室 ID。
-		to: targetId,
+		to: props.targetId,
 	};
 	let msg = EasemobSDK.message.create(option);
 	// 调用 `send` 方法发送该图片消息。
