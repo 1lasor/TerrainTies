@@ -24,6 +24,7 @@ const appendMessage = (message) =>{
 	messageList.value.push(message)
 }
 
+// 获取历史记录
 const getHistoryMessage = () => {
 	let options = {
 		// 对方的用户 ID 或者群组 ID 或聊天室 ID。
@@ -40,6 +41,7 @@ const getHistoryMessage = () => {
 	EMClient.getHistoryMessages(options)
 	.then((res) => {
 		// 成功获取历史消息。
+		console.log('成功获取历史消息');
 		messageList.value = res.messages.reverse().concat(messageList.value);
 	})
 	.catch((e) => {
@@ -63,6 +65,11 @@ const isShowToolbar = ref(false);
 </script>
 
 <style lang="scss" scoped>
+<<<<<<< HEAD
+
+@import url("./style.scss");
+
+=======
 .chat-container {
   display: flex;
   flex-direction: column;
@@ -101,4 +108,5 @@ const isShowToolbar = ref(false);
     }
   }
 }
+>>>>>>> 48c782c6757f2a1e12678fc39ca8d7a40fe30d64
 </style>
