@@ -9,7 +9,7 @@
 			<input class="input" type="password" placeholder="请输入密码" v-model="password" />
 		</view>
 		<view>
-			<button @click="loginIM">登录</button>
+			<button class= "login-button" @click="loginIM">登录</button>
 		</view>
 		<view class="register-link">
 			<text @click="navigateToRegister">没有账号？立即注册</text>
@@ -52,9 +52,14 @@ const navigateToRegister = () => {
 </script>
 
 <style>
+.login-button{
+	color: #f0d7d3;
+	background-color: #3c5978;
+	margin-top: 100px;
+}
 .content {
 	width: 100%;
-	height: 100%;
+	height: max-content;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -65,7 +70,7 @@ const navigateToRegister = () => {
 	height: 200rpx;
 	width: 200rpx;
 	margin-top: 200rpx;
-	margin-bottom: 50rpx;
+	margin-bottom: 20rpx;
 }
 
 .text-area {
@@ -84,6 +89,7 @@ const navigateToRegister = () => {
 	flex-direction: column;
 	align-items: center;
 	margin-bottom: 20rpx;
+	margin-top: 70rpx;
 }
 
 .input {
@@ -96,11 +102,11 @@ const navigateToRegister = () => {
 }
 
 .register-link {
-	margin-top: 20rpx;
+	margin-top: 20px;
 }
 
 .register-link text {
-	color: blue;
+	color: #720081;
 	text-decoration: underline;
 }
 </style>

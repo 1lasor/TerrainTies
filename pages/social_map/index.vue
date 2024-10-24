@@ -8,7 +8,7 @@
 		<!-- 地图组件 -->
 		<view class="map-container">
 			<map style="width: 100%; height: 90vh;" :show-location='true' ref="map" id="map" :latitude="latitude"
-				:longitude="longitude" :markers="marker" :scale="scale" @markertap="markertap">
+				:longitude="longitude" :markers="marker" :scale="scale" >
 				<cover-view class="cover-view">
 					<cover-view @click="refresh">
 						<cover-image class="cover-image" src="/static/shuaxin.png"></cover-image>
@@ -18,7 +18,7 @@
 						<cover-image class="cover-image" src="/static/dingwei.png"></cover-image>
 						<cover-view>定位</cover-view>
 					</cover-view>
-					<cover-view @click="getUserLocation('qwer')">
+					<cover-view @click="getUserLocation('wqq')">
 						<cover-image class="cover-image" src="/static/logo.png"></cover-image>
 						<cover-view>测试定位</cover-view>
 					</cover-view>
@@ -138,6 +138,13 @@
 			refresh() {
 				this.getLocation()
 				console.log('>>>>>刷新');
+				this.getUserLocation('wqq').then(location => {
+				  // 当 Promise 被成功解决时，这里的 location 将是 { latitude: ..., longitude: ... }
+				  console.log('用户位置:', location);
+				}).catch(error => {
+				  // 当 Promise 被拒绝时，这里的 error 将是错误信息
+				  console.error('获取用户位置失败:', error);
+				});
 			},
 			onControltap() {
 				this.getLocation()
@@ -148,10 +155,9 @@
 					content: '当前纬度' + this.latitude + '当前经度' + this.longitude
 				})
 			},
-			// 其他方法...
 			onShow() {
 				this.getLocation()
-			}
+			},
 		}
 	});
 </script>

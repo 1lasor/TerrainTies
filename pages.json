@@ -23,8 +23,7 @@
 	
 			"style": {
 				"navigationBarTitleText": "TerrainTies",
-				"navigationStyle": "custom",
-				"disableSwipeBack": true
+				"navigationStyle": "custom"
 			}
 		},
 		{
