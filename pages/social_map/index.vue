@@ -47,53 +47,37 @@
 	import QQMapWX from '../../common/qqmap-wx-jssdk.js'
 	//import QQMapWX from '../../common/qqmap-wx-jssdk.js';
 
-
 	export default defineComponent({
 		name: 'HomePage',
 		data() {
 			return {
-				latitude: 30.308763, //纬度
-				longitude: 120.388526, //经度
-				scale: 12, //缩放级别
-				marker: [{
-					id: 0,
-					latitude: 30.308763, //纬度
-					longitude: 120.388526, //经度
-					iconPath: '/static/logo.png', //显示的头像
-					rotate: 0, // 旋转度数
-					width: 20, //宽
-					height: 30, //高
-					alpha: 0.5, //透明度
-					callout: { //自定义标记点上方的气泡窗口 点击有效
-						content: '吉米', //文本
-						color: '#ffffff', //文字颜色
-						fontSize: 7, //文本大小
-						borderRadius: 15, //边框圆角
-						padding: '10',
-						bgColor: '#406390', //背景颜色
-						display: 'ALWAYS', //常显
-					}
-				}],
+				latitude: 30.308763, // 纬度
+				longitude: 120.388526, // 经度
+				scale: 12, // 缩放级别
+				marker: [], // 存储标记信息
 			};
 		},
 		methods: {
 			navigateTo(page) {
 				uni.navigateTo({
-					url: page
+					url: page,
 				});
 				console.log(`Navigate to ${page}`);
 			},
 			getLocation() {
+				console.log("尝试获取位置");
 				uni.getLocation({
 					type: 'gcj02',
 					success: res => {
 						this.latitude = res.latitude;
 						this.longitude = res.longitude;
 						this.updateUserInfoWithLocation();
+						console.log("here")
+						this.getFriendsWithLocations(); // 位置获取成功后获取好友id位置列表
 					},
 					fail: err => {
 						console.error('获取位置失败:', err);
-					}
+					},
 				});
 			},
 			updateUserInfoWithLocation() {
@@ -103,40 +87,155 @@
 						longitude: this.longitude,
 					}),
 				};
-				EMClient.updateUserInfo(option).then((res) => {
+				EMClient.updateUserInfo(option).then(res => {
 					console.log('>>>>>用户位置信息更新成功:', res);
-				}).catch((err) => {
+				}).catch(err => {
 					console.error('>>>>>更新用户位置信息失败:', err);
 				});
 			},
-			getUserLocation(user) {
-			  return new Promise((resolve, reject) => {
-			    EMClient.fetchUserInfoById(user).then((res) => {
-			      if (res.data && res.data[user] && res.data[user]['ext']) {
-			        try {
-			          let ext = JSON.parse(res.data[user]['ext']);
-			          console.log(">>>>>获取用户信息（位置）:", ext.latitude, ext.longitude);
-			          resolve({
-			            latitude: ext.latitude,
-			            longitude: ext.longitude
-			          });
-			        } catch (error) {
-			          console.error('解析用户扩展信息失败:', error);
-			          reject(error);
-			        }
-			      } else {
-			        console.log("没有找到用户的位置信息");
-			        reject(new Error("位置信息不存在"));
-			      }
-			    }).catch((err) => {
-			      console.error("获取用户信息失败:", err);
-			      reject(err);
-			    });
-			    console.log('>>>>>刷新');
-			  });
+			getUserLocation(userId) {
+				return new Promise((resolve, reject) => {
+					EMClient.fetchUserInfoById(userId).then(res => {
+						if (res.data && res.data[userId] && res.data[userId]['ext']) {
+							try {
+								let ext = JSON.parse(res.data[userId]['ext']);
+								console.log(">>>>>获取用户信息（位置）:", ext.latitude, ext.longitude);
+								resolve({
+									userId,
+									latitude: ext.latitude,
+									longitude: ext.longitude,
+								});
+							} catch (error) {
+								console.error('解析用户扩展信息失败:', error);
+								reject(error);
+							}
+						} else {
+							console.log("没有找到用户的位置信息");
+							//reject(new Error("位置信息不存在"));
+							resolve({
+								userId,
+								latitude: this.latitude,
+								longitude: this.longitude,
+							});
+						}
+					}).catch(err => {
+						console.error("获取用户信息失败:", err);
+						reject(err);
+					});
+				});
 			},
+			getFriendsWithLocations() {
+			    EMClient.getContacts().then((res) => {
+			      if (res && res.data) {
+			        const friendList = res.data;
+			        const locationsPromise = friendList.map(userId => {
+			          return this.getUserLocation(userId).then(location => {
+			            return { userId, location };
+			          });
+			        });
+			
+			        Promise.all(locationsPromise).then(results => {
+			          const friendsWithLocations = {};
+			          results.forEach(result => {
+			            friendsWithLocations[result.userId] = result.location;
+			          });
+			          console.log(friendsWithLocations); // 打印包含用户ID和地理位置的字典
+			          // 这里可以将 friendsWithLocations 设置到组件的数据中或进行其他处理
+			          this.friendsWithLocations = friendsWithLocations;
+			        }).catch(error => {
+			          console.error('获取用户位置出错:', error);
+			        });
+			      } else {
+			        console.error('获取好友列表失败或数据格式不正确');
+			      }
+			    }).catch((error) => {
+			      console.error('获取好友列表出错:', error);
+			    });
+			  },
+			calculateDistance(lat1, lon1, lat2, lon2) {
+				const toRad = (value) => value * Math.PI / 180;
+				const R = 6371; // 地球半径，单位为公里
+				const dLat = toRad(lat2 - lat1);
+				const dLon = toRad(lon2 - lon1);
+				const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+					Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+					Math.sin(dLon / 2) * Math.sin(dLon / 2);
+				const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+				return R * c;
+			},
+			// 计算两个经纬度之间的距离（单位：公里）
+			calculateDistance(coord1, coord2) {
+			  const R = 6371; // 地球半径（公里）
+			  const dLat = (coord2.latitude - coord1.latitude) * Math.PI / 180;
+			  const dLon = (coord2.longitude - coord1.longitude) * Math.PI / 180;
+			  const a = 
+			    0.5 - Math.cos(dLat) / 2 + 
+			    Math.cos(coord1.latitude * Math.PI / 180) * Math.cos(coord2.latitude * Math.PI / 180) * 
+			    (1 - Math.cos(dLon)) / 2;
+			  const distance = R * 2 * Math.asin(Math.sqrt(a));
+			  return distance;
+			},
+			// 将好友位置显示在地图上
+			showFriendsOnMap(friendsWithLocations, userLocation) {
+			    const nearbyFriends = {};
+			    for (const [userId, location] of Object.entries(friendsWithLocations)) {
+			      const distance = this.calculateDistance(userLocation, location);
+			      if (distance <= 5) {
+			        nearbyFriends[userId] = location;
+			      }
+			    };
+			    // 在地图上为每个附近的好友添加标记
+			    for (const [userId, location] of Object.entries(nearbyFriends)) {
+			        // 假设地图API有一个addMarker方法来添加标记
+			        this.addMarker({
+			        latitude: location.latitude,
+			        longitude: location.longitude,
+			        title: userId, // 标记的标题为userId
+					iconPath: '/static/path.png',
+					callout: { //自定义标记点上方的气泡窗口 点击有效
+						content: userId, //文本
+						color: '#ffffff', //文字颜色
+						fontSize: 7, //文本大小
+						borderRadius: 15, //边框圆角
+						padding: '10',
+						bgColor: '#406390', //背景颜色
+						display: 'ALWAYS', //常显
+					}
+			      });
+			    }
+			  },
+			addMarker(options) {
+			      // options 参数应该包含标记的位置、标题和其他属性
+			      this.marker.push(options)
+			  
+			      // 如果提供了点击事件处理函数，绑定它
+			      // if (options.onClick) {
+			      //   marker.onClick = options.onClick;
+			      // }
+			    },
+			  // 获取用户当前位置的示例方法
+			getUserCurrentLocation() {
+			      // 这里应该是获取用户当前位置的代码
+			      // 以下是一个示例返回Promise的模拟
+			      return new Promise((resolve, reject) => {
+			        // 模拟API调用
+			        setTimeout(() => {
+			          // 假设返回一个用户当前位置对象
+			          const userLocation = { latitude:this.latitude, longitude: this.longitude };
+			          resolve(userLocation);
+			        }, 1000);
+			      });
+			    },
+			  // 初始化地图并显示附近好友的位置
+			initMapAndShowFriends() {
+			      this.getUserCurrentLocation().then(userLocation => {
+			        this.showFriendsOnMap(this.friendsWithLocations, userLocation);
+			      }).catch(error => {
+			        console.error('获取用户当前位置出错:', error);
+			      });
+			    },
 			refresh() {
-				this.getLocation()
+				this.getLocation();
 				console.log('>>>>>刷新');
 				this.getUserLocation('wqq').then(location => {
 				  // 当 Promise 被成功解决时，这里的 location 将是 { latitude: ..., longitude: ... }
@@ -147,19 +246,29 @@
 				});
 			},
 			onControltap() {
-				this.getLocation()
+				this.getLocation();
 				uni.createMapContext("map", this).moveToLocation();
 				console.log('>>>>>定位');
-				uni.showModal({
-					title: '提示',
-					content: '当前纬度' + this.latitude + '当前经度' + this.longitude
-				})
 			},
 			onShow() {
 				this.getLocation()
 			},
+			//地图点击事件
+						markertap() {
+							console.log("你点击了标记点")
+							uni.showModal({
+								title: '提示',
+								content: '地图点击事件，标记点'
+							})
+						}
+		},
+		onLoad(){
+			this.getLocation();
+			this.getFriendsWithLocations();
+			this.initMapAndShowFriends();
 		}
 	});
+
 </script>
 
 <style scoped>
