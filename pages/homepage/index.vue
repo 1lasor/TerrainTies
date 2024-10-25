@@ -15,7 +15,7 @@
 <script setup>
 import { EMClient } from '../../EaseIM';
 import { useContactsStore } from '../stores/contacts';
-import { ref } from 'vue';
+import { ref,onMounted } from 'vue';
 
 const ContactStore = useContactsStore();
 
@@ -23,22 +23,6 @@ const setUserInfoData = () =>{
     uni.navigateTo({
         url: '/pages/homepage/changeData'
     });
-    // const actionModifyRemark = (content) => {
-    //     console.log('>>>>执行设置');
-    //     ContactStore.setLoginUserInfo(content);
-    // };
-    // uni.showModal({
-    //     title:'设置用户属性',
-    //     editable:true,
-    //     success:function(res){
-    //         if(res.confirm){
-    //             const { content } = res;
-    //             actionModifyRemark(content);
-    //         }else if(res.cancel){
-    //             console.log('用户点击取消');
-    //         }
-    //     },
-    // });
 }
 
 const getUserInfoDetails = () =>{
@@ -47,14 +31,43 @@ const getUserInfoDetails = () =>{
     console.log('>>>>userID',loginUserId);
 };
 
-const state = ref('在线');
+const state = ref('');
+
+onMounted(async () => {
+  state.value = await currentState();
+});
+
+const currentState = async ()=>{
+    const currentUser = EMClient.user;
+    const res = await EMClient.fetchUserInfoById(currentUser);
+    // 解析扩展信息
+    const ext = JSON.parse(res.data[currentUser].ext);
+    return ext.state;
+}
 
 const stateOptions = ['在线', '隐身'];
 
-const onStateChange = (e) => {
-    state.value = stateOptions[e.detail.value];
+const onStateChange = async (e) => {
+    const newState = stateOptions[e.detail.value];
+    state.value = newState;
+    const currentUser = EMClient.user;
+    const res = await EMClient.fetchUserInfoById(currentUser);
+    // 解析扩展信息
+    const ext = JSON.parse(res.data[currentUser].ext);
+    // 更新用户状态到用户属性中
+    try {
+        let option = {
+            ext: JSON.stringify({
+                ...ext,
+                state: newState,
+            }),
+        };
+        await EMClient.updateUserInfo(option);
+        console.log('用户状态更新成功:', newState);
+    } catch (err) {
+        console.error('用户状态更新失败:', err);
+    }
 };
-
 </script>
 
 

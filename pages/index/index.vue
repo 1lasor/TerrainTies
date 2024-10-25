@@ -20,6 +20,9 @@
 <script setup>
 import { ref } from 'vue';
 import { EMClient } from '@/EaseIM';
+import { useCurrentState } from '../stores/state';
+
+const CurrentState = useCurrentState();
 
 const title = ref('TerrainTies');
 const username = ref('');
@@ -33,6 +36,7 @@ const loginIM = () => {
 	})
 		.then(() => {
 			console.log(">>>>>login success");
+			CurrentState.initialState(username.value);
 			uni.navigateTo({
 				url: '/pages/social_map/index'
 			});

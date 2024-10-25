@@ -15,20 +15,38 @@
         >
             <view class="conversation_main">
                 <text class="conversation_main_name">{{ contactItem.userId }}</text>
+                <text>({{ getContactUserInfoMap(contactItem.userId) }})</text>
             </view>
         </view>
     </view>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed,onMounted } from 'vue';
+import { EMClient } from '../../EaseIM';
 import { useContactsStore } from '../stores/contacts';
 
 const ContactsStore = useContactsStore();
-ContactsStore.fetchAllContactsListFromServer();
-
-// 使用计算属性来获取 contactsList
 const contactsList = computed(() => ContactsStore.contactsList);
+
+//获取用户属性
+const getContactUserInfoMap = computed(() =>{
+    return (userId) => {
+        if(ContactsStore.contactUserInfoMap.has(userId)){
+            const ext = JSON.parse(ContactsStore.contactUserInfoMap.get(userId)?.ext);
+            return ext.state;
+        }
+    };
+});
+
+ContactsStore.fetchAllContactsListFromServer();
+const contactsListId = [];
+for (const contactId in ContactsStore.contactsList){
+    contactsListId.push(ContactsStore.contactsList[contactId]['userId']);
+    console.log("<<<<<",ContactsStore.contactsList[contactId]['userId'])
+}
+
+ContactsStore.fetchContactsUserInfoFromServer(contactsListId);
 
 // 使用计算属性来获取 pendingContactInvites
 const pendingContactInvites = computed(() => ContactsStore.pendingContactInvites);
@@ -126,14 +144,14 @@ const actionDeleteContact = async (userID) =>{
 };
 
 const navigateToChat = (userId) => {
-  try {
-    uni.navigateTo({
-      url: `/pages/chat/index?userId=${encodeURIComponent(userId)}`
-    });
-    console.log('>>>>跳转至会话界面');
-  } catch (error) {
-    console.log('>>>>跳转失败', error);
-  }
+    try {
+        uni.navigateTo({
+            url: `/pages/chat/index?userId=${encodeURIComponent(userId)}`
+        });
+        console.log('>>>>跳转至会话界面');
+    } catch (error) {
+        console.log('>>>>跳转失败', error);
+    }
 };
 
 
@@ -145,6 +163,17 @@ const navigateToChat = (userId) => {
     font-size: 20px;
     /* 添加可见性样式，例如 */
     display: block; /* 或者 flex, grid 等 */
+}
+
+.conversation_main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20rpx;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #eaeaea;
+    border-radius: 10rpx;
+    margin: 10rpx 0;
 }
 
 </style>

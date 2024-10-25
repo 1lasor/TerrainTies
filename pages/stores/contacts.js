@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { EMClient } from '../../EaseIM'
+import { reactive, toRefs } from 'vue';
 
 export const useContactsStore = defineStore('contactsStore',{
     state: () =>{
@@ -7,13 +8,14 @@ export const useContactsStore = defineStore('contactsStore',{
             contactsList:[],
             cursor:'',
             pendingContactInvites: [],
+            contactUserInfoMap: new Map(),
         };
     },
     actions:{
         async fetchAllContactsListFromServer(){
             try{
                 const { data } = await EMClient.getAllContacts();
-                console.log('>>>>>',data);
+                console.log('data>>>>>',data);
                 if(data?.length>=0){
                     this.$state.contactsList = data;
                 }
@@ -97,5 +99,21 @@ export const useContactsStore = defineStore('contactsStore',{
                 console.log('>>>>修改失败',error);
             }
         },
+        // 获取联系人属性
+        async fetchContactsUserInfoFromServer(contactsUserId){
+            try {
+                console.log('<<<<<<<<<<<<<<<<<<<<',contactsUserId);
+                const { data } = await EMClient.fetchUserInfoById(contactsUserId);
+                for(const key in data){
+                    if(Object.hasOwnProperty.call(data,key)){
+                        const userItem = data[key];
+                        console.log('userItem',userItem);
+                        this.$state.contactUserInfoMap.set(key,userItem);
+                    }
+                }
+            } catch (error) {
+                console.log('获取联系人属性失败',error);
+            }
+        }
     },
 });

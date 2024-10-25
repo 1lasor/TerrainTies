@@ -101,6 +101,7 @@
 					ext: JSON.stringify({
 						latitude: this.latitude,
 						longitude: this.longitude,
+						state:'在线',
 					}),
 				};
 				EMClient.updateUserInfo(option).then((res) => {
