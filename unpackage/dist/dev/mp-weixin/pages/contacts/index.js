@@ -108,16 +108,12 @@ const _sfc_main = {
           };
         }),
         c: common_vendor.f(contactsList.value, (contactItem, k0, i0) => {
-          return common_vendor.e({
+          return {
             a: common_vendor.t(contactItem.userId),
-            b: contactItem.remark
-          }, contactItem.remark ? {
-            c: common_vendor.t("(" + contactItem.remark + ")")
-          } : {}, {
-            d: contactItem.userId,
-            e: common_vendor.o(($event) => navigateToChat(contactItem.userId), contactItem.userId),
-            f: common_vendor.o(($event) => deleteContact(contactItem.userId), contactItem.userId)
-          });
+            b: contactItem.userId,
+            c: common_vendor.o(($event) => navigateToChat(contactItem.userId), contactItem.userId),
+            d: common_vendor.o(($event) => deleteContact(contactItem.userId), contactItem.userId)
+          };
         })
       };
     };

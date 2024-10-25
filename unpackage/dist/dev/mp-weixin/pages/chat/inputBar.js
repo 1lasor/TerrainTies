@@ -124,7 +124,7 @@ const _sfc_main = {
         height,
         url: resData.uri + "/" + resData.entities[0].uuid,
         // 消息接收方：单聊为对方用户 ID，群聊和聊天室分别为群组 ID 和聊天室 ID。
-        to: targetId
+        to: props.targetId
       };
       let msg = common_vendor.EasemobSDK.message.create(option);
       EaseIM_index.EMClient.send(msg).then((res2) => {

@@ -11,6 +11,7 @@ if (!Math) {
   "./pages/contacts/index.js";
   "./pages/conversation/index.js";
   "./pages/homepage/index.js";
+  "./pages/homepage/changeData.js";
   "./pages/index/register.js";
 }
 const _sfc_main = {

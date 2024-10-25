@@ -75,6 +75,27 @@ const useContactsStore = common_vendor.defineStore("contactsStore", {
       } catch (error) {
         console.log(">>>>获取用户属性失败", error);
       }
+    },
+    // 设置当前用户属性
+    async setLoginUserInfo(content) {
+      try {
+        let option = {
+          avatarurl: content.avatarurl,
+          gender: content.gender,
+          phone: content.phone,
+          // mail: "123@qq.com",
+          birth: content.birth
+          // sign: "a sign",
+          // ext: JSON.stringify({
+          //   nationality: "China",
+          //   merit: "Hello, world！",
+          // }),
+        };
+        await EaseIM_index.EMClient.updateUserInfo(option);
+        console.log(">>>>修改成功");
+      } catch (error) {
+        console.log(">>>>修改失败", error);
+      }
     }
   }
 });
