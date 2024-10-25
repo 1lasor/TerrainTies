@@ -41,7 +41,8 @@
 		{
 			"path":"pages/homepage/index",
 			"style": {
-				"navigationBarTitleText": "TerrainTies"
+				"navigationBarTitleText": "TerrainTies",
+				"disableScroll": true
 			}
 		},
 		{
