@@ -50,11 +50,16 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "touristappid",
         "setting" : {
             "urlCheck" : false
         },
-        "usingComponents" : true
+        "usingComponents" : true,
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "地图社交软件需要获取用户位置"
+            }
+        }
     },
     "mp-alipay" : {
         "usingComponents" : true
@@ -77,5 +82,6 @@
                 }
             }
         }
-    }
+    },
+    "locale" : "zh-Hans"
 }

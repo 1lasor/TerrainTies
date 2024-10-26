@@ -8,7 +8,7 @@
 		<!-- 地图组件 -->
 		<view class="map-container">
 			<map style="width: 100%; height: 90vh;" :show-location='true' ref="map" id="map" :latitude="latitude"
-				:longitude="longitude" :markers="marker" :scale="scale" >
+				:longitude="longitude" :markers="marker" :scale="scale" @markertap="markertap" >
 				<cover-view class="cover-view">
 					<cover-view @click="refresh">
 						<cover-image class="cover-image" src="/static/shuaxin.png"></cover-image>
