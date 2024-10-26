@@ -176,93 +176,101 @@
 			  const distance = R * 2 * Math.asin(Math.sqrt(a));
 			  return distance;
 			},
+			
 			// 将好友位置显示在地图上
-			showFriendsOnMap(friendsWithLocations, userLocation) {
-			    const nearbyFriends = {};
-			    for (const [userId, location] of Object.entries(friendsWithLocations)) {
-			      const distance = this.calculateDistance(userLocation, location);
-			      if (distance <= 5) {
-			        nearbyFriends[userId] = location;
-			      }
-			    };
-			    // 在地图上为每个附近的好友添加标记
-			    for (const [userId, location] of Object.entries(nearbyFriends)) {
-			        // 假设地图API有一个addMarker方法来添加标记
-			        this.addMarker({
-			        latitude: location.latitude,
-			        longitude: location.longitude,
-			        title: userId, // 标记的标题为userId
-					iconPath: '/static/path.png',
-					callout: { //自定义标记点上方的气泡窗口 点击有效
-						content: userId, //文本
-						color: '#ffffff', //文字颜色
-						fontSize: 7, //文本大小
-						borderRadius: 15, //边框圆角
-						padding: '10',
-						bgColor: '#406390', //背景颜色
-						display: 'ALWAYS', //常显
-					}
-			      });
-			    }
-			  },
-			addMarker(options) {
-			      // options 参数应该包含标记的位置、标题和其他属性
-			      this.marker.push(options)
-			  
-			      // 如果提供了点击事件处理函数，绑定它
-			      // if (options.onClick) {
-			      //   marker.onClick = options.onClick;
-			      // }
-			    },
-			  // 获取用户当前位置的示例方法
-			getUserCurrentLocation() {
-			      // 这里应该是获取用户当前位置的代码
-			      // 以下是一个示例返回Promise的模拟
-			      return new Promise((resolve, reject) => {
-			        // 模拟API调用
-			        setTimeout(() => {
-			          // 假设返回一个用户当前位置对象
-			          const userLocation = { latitude:this.latitude, longitude: this.longitude };
-			          resolve(userLocation);
-			        }, 1000);
-			      });
-			    },
-			  // 初始化地图并显示附近好友的位置
-			initMapAndShowFriends() {
-			      this.getUserCurrentLocation().then(userLocation => {
-			        this.showFriendsOnMap(this.friendsWithLocations, userLocation);
-			      }).catch(error => {
-			        console.error('获取用户当前位置出错:', error);
-			      });
-			    },
-			refresh() {
-				this.getLocation();
-				console.log('>>>>>刷新');
-				this.getUserLocation('wqq').then(location => {
-				  // 当 Promise 被成功解决时，这里的 location 将是 { latitude: ..., longitude: ... }
-				  console.log('用户位置:', location);
-				}).catch(error => {
-				  // 当 Promise 被拒绝时，这里的 error 将是错误信息
-				  console.error('获取用户位置失败:', error);
-				});
-			},
-			onControltap() {
-				this.getLocation();
-				uni.createMapContext("map", this).moveToLocation();
-				console.log('>>>>>定位');
-			},
-			onShow() {
-				this.getLocation()
-			},
-			//地图点击事件
-						markertap() {
-							console.log("你点击了标记点")
-							uni.showModal({
-								title: '提示',
-								content: '地图点击事件，标记点'
-							})
+						// 将好友位置显示在地图上
+						showFriendsOnMap(friendsWithLocations, userLocation) {
+						    const nearbyFriends = {};
+						    for (const [userId, location] of Object.entries(friendsWithLocations)) {
+						        const distance = this.calculateDistance(userLocation, location);
+						        if (distance <= 5) {
+						            nearbyFriends[userId] = location;
+						        }
+						    }
+						
+						    let markerId = 0;
+						    // 创建一个对象来存储markerId与title的对应关系
+						    this.markerTitleMap = {}; 
+						
+						    // 在地图上为每个附近的好友添加标记
+						    for (const [userId, location] of Object.entries(nearbyFriends)) {
+						        this.markerTitleMap[markerId] = userId; // 存储对应关系
+						        this.addMarker({
+						            id: markerId++,
+						            latitude: location.latitude,
+						            longitude: location.longitude,
+						            title: userId, // 标记的标题为userId
+						            iconPath: '/static/path.png',
+						            callout: {
+						                content: userId, // 文本
+						                color: '#ffffff', // 文字颜色
+						                fontSize: 7, // 文本大小
+						                borderRadius: 15, // 边框圆角
+						                padding: '10',
+						                bgColor: '#406390', // 背景颜色
+						                display: 'ALWAYS', // 常显
+						            }
+						        });
+						    }
+						},
+						
+						addMarker(options) {
+						    // options 参数应该包含标记的位置、标题和其他属性
+						    this.marker.push(options);
+						},
+						
+						// 地图点击事件
+						markertap(e) {
+						    const markerId = e.markerId; // 假设e.markerId包含点击的标记ID
+						    const title = this.markerTitleMap[markerId]; // 根据markerId获取title
+						
+						    console.log("你点击了标记点", title);
+						    uni.showModal({
+						        title: '提示',
+						        content: '地图点击事件，标记点: ' + title
+						    });
+						},
+						  // 获取用户当前位置的示例方法
+						getUserCurrentLocation() {
+						      // 这里应该是获取用户当前位置的代码
+						      // 以下是一个示例返回Promise的模拟
+						      return new Promise((resolve, reject) => {
+						        // 模拟API调用
+						        setTimeout(() => {
+						          // 假设返回一个用户当前位置对象
+						          const userLocation = { latitude:this.latitude, longitude: this.longitude };
+						          resolve(userLocation);
+						        }, 1000);
+						      });
+						    },
+						  // 初始化地图并显示附近好友的位置
+						initMapAndShowFriends() {
+						      this.getUserCurrentLocation().then(userLocation => {
+						        this.showFriendsOnMap(this.friendsWithLocations, userLocation);
+						      }).catch(error => {
+						        console.error('获取用户当前位置出错:', error);
+						      });
+						    },
+						refresh() {
+							this.getLocation();
+							console.log('>>>>>刷新');
+							this.getUserLocation('wqq').then(location => {
+							  // 当 Promise 被成功解决时，这里的 location 将是 { latitude: ..., longitude: ... }
+							  console.log('用户位置:', location);
+							}).catch(error => {
+							  // 当 Promise 被拒绝时，这里的 error 将是错误信息
+							  console.error('获取用户位置失败:', error);
+							});
+						},
+						onControltap() {
+							this.getLocation();
+							uni.createMapContext("map", this).moveToLocation();
+							console.log('>>>>>定位');
+						},
+						onShow() {
+							this.getLocation()
 						}
-		},
+					},
 		onLoad(){
 			this.getLocation();
 			this.getFriendsWithLocations();
