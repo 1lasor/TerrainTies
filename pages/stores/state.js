@@ -16,6 +16,9 @@ export const useCurrentState = defineStore('stateStore',{
             if(ext.state === undefined){
                 try {
                     let option = {
+                        gender:'男',
+                        phone:'无',
+                        birth:'无',
                         ext: JSON.stringify({
                             ...ext,
                             state: '在线',

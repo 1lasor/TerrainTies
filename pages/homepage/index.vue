@@ -2,10 +2,16 @@
     <view>
         <button @click="setUserInfoData">设置用户属性</button>
     </view>
-    <view>
-        <button @click="getUserInfoDetails">获取指定用户属性</button>
+    <view class="user_info">
+        
+        <text>{{'性别：' + userGender }}\n</text>
+        <text>{{'手机号：' + userPhone }}\n</text>
+        <text>{{'生日：' + userBirth }}\n</text>
+        <text>{{'位置：纬度：' + userLatitude }}\n</text>
+        <text>{{'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经度：' + userLongitude }}\n</text>
     </view>
     <view class="centered-view">
+        <text class="state_text">{{ '当前用户状态：' }}</text>
         <picker mode="selector" :range="stateOptions" @change="onStateChange">
             <view class="picker">{{ state }}</view>
         </picker>
@@ -19,30 +25,38 @@ import { ref,onMounted } from 'vue';
 
 const ContactStore = useContactsStore();
 
+const userGender = ref('');
+const userPhone = ref('');
+const userBirth = ref('');
+const userLatitude = ref('');
+const userLongitude = ref('');
+const state = ref('');
+
 const setUserInfoData = () =>{
     uni.navigateTo({
         url: '/pages/homepage/changeData'
     });
 }
 
-const getUserInfoDetails = () =>{
-    const loginUserId = EMClient.user;
-    ContactStore.fetchUserInfoFromServer(loginUserId);
-    console.log('>>>>userID',loginUserId);
+const updateUserInfo = async () => {
+    const result = await getUserInfoDetails();
+    userGender.value = result.data[EMClient.user].gender;
+    userPhone.value = result.data[EMClient.user].phone;
+    userBirth.value = result.data[EMClient.user].birth;
+    const ext = JSON.parse(result.data[EMClient.user].ext);
+    userLatitude.value = ext.latitude;
+    userLongitude.value = ext.longitude;
+    state.value = ext.state;
 };
 
-const state = ref('');
-
-onMounted(async () => {
-  state.value = await currentState();
+onMounted(() => {
+    updateUserInfo();
 });
 
-const currentState = async ()=>{
+const getUserInfoDetails = async ()=>{
     const currentUser = EMClient.user;
     const res = await EMClient.fetchUserInfoById(currentUser);
-    // 解析扩展信息
-    const ext = JSON.parse(res.data[currentUser].ext);
-    return ext.state;
+    return res;
 }
 
 const stateOptions = ['在线', '隐身'];
@@ -74,24 +88,67 @@ const onStateChange = async (e) => {
 
 
 <style>
+.state_text {
+    /* 设置字体大小 */
+    font-size: 16px;
+    /* 设置文本颜色 */
+    color: #333;
+    /* 设置行高 */
+    line-height: 1.5;
+    /* 设置边距 */
+    margin-right: 10px; /* 调整右边距，以便和picker组件有间隔 */
+    /* 设置对齐方式 */
+    align-self: center; /* 确保垂直居中对齐 */
+    margin-left: 75px;
+}
+
+.user_info {
+    /* 设置字体大小 */
+    font-size: 16px;
+    /* 设置文本颜色 */
+    color: #333;
+    /* 设置行高 */
+    line-height: 1.5;
+    /* 设置边距 */
+    margin: 10px;
+    /* 设置对齐方式 */
+    text-align: left;
+    /* 设置边框 */
+    border: 1px solid #ccc;
+    /* 设置内边距 */
+    padding: 10px;
+    /* 设置背景颜色 */
+    background-color: #f9f9f9;
+    /* 设置圆角 */
+    border-radius: 5px;
+    /* 保留空白符和换行符 */
+    white-space: pre-wrap;
+    margin-top: 500rpx;
+}
+
 .centered-view {
     display: flex;
-    justify-content: center; /* 水平居中 */
-    align-items: center;     /* 垂直居中 */
-    height: 100vh;           /* 使视图高度等于视口高度 */
+    flex-direction: row; /* 水平排列子元素 */
+    justify-content: flex-start; /* 或者 center，根据你的布局需求 */
+    align-items: center; /* 垂直居中对齐子元素 */
+    margin-top: 200rpx;
+    height: auto;
 }
 
 .picker {
+    /* 设置字体大小、颜色、行高等与 state_text 一致 */
+    font-size: 16px;
+    color: #333;
+    line-height: 1.5;
+    /* 设置边距 */
+    margin-left: 10px; /* 调整左边距，以便和state_text有间隔 */
+    text-align: left;
     width: 100%;
-    height: 80rpx;
+    height: 200rpx;
     border: 1px solid #ccc;
     border-radius: 10rpx;
     padding: 0 20rpx;
-    margin-bottom: 20rpx;
-    box-sizing: border-box; /* 确保边框和内边距包含在宽度内 */
-}
-
-.picker {
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: space-between;
