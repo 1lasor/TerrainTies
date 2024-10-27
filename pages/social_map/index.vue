@@ -225,6 +225,7 @@
 						    const title = this.markerTitleMap[markerId]; // 根据markerId获取title
 						
 						    console.log("你点击了标记点", title);
+<<<<<<< HEAD
 						    // uni.showModal({
 						    //     title: '提示',
 						    //     content: '地图点击事件，标记点: ' + title
@@ -232,6 +233,12 @@
 							uni.navigateTo({
 								url: `/pages/chat/index?userId=${encodeURIComponent(title)}`
 							});
+=======
+						    uni.showModal({
+						        title: '提示',
+						        content: '地图点击事件，标记点: ' + title
+						    });
+>>>>>>> 8d447536716426f8cd440f1ce703eede15604f52
 						},
 						  // 获取用户当前位置的示例方法
 						getUserCurrentLocation() {
