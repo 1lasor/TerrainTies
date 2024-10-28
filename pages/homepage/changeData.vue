@@ -2,7 +2,7 @@
     <view class="content">
 		<view class="input-area">
             <picker mode="selector" :range="avatarOptions" @change="onAvatarChange">
-                <view class="picker">
+                <view class="picker_head">
                     <image class="avatar" :src="avatarurl || defaultAvatar" />
                 </view>
             </picker>
@@ -36,6 +36,7 @@ const birth = ref('');
 const avatarOptions = [
     '/static/pictures/avatar1.png',
     '/static/pictures/avatar2.png',
+    '/static/pictures/avatar3.png',
     // 更多头像URLs...
 ];
 
@@ -70,6 +71,9 @@ const changeUserData = () =>{
         success:function(res){
             if(res.confirm){
                 actionModifyRemark(userInfo);
+                uni.navigateTo({
+                    url: '/pages/homepage/index.vue'
+                });
             }else if(res.cancel){
                 console.log('用户点击取消');
             }
@@ -111,6 +115,7 @@ const changeUserData = () =>{
     margin-bottom: 20rpx;
     box-sizing: border-box; /* 确保边框和内边距包含在宽度内 */
 }
+
 .picker {
     width: 100%;
     height: 80rpx;
@@ -119,9 +124,22 @@ const changeUserData = () =>{
     padding: 0 20rpx;
     margin-bottom: 20rpx;
     box-sizing: border-box; /* 确保边框和内边距包含在宽度内 */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
-.picker {
+.picker_head {
+    width: 400rpx;
+    height: 400rpx;
+    border: 1px solid #ccc;
+    border-radius: 10rpx;
+    padding: 0 20rpx;
+    margin-bottom: 20rpx;
+    box-sizing: border-box; /* 确保边框和内边距包含在宽度内 */
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -132,6 +150,10 @@ const changeUserData = () =>{
 
 /* 当有值时隐藏提示文字 */
 .picker:not([data-placeholder='']):not(:empty)::after {
+    content: none;
+}
+
+.picker_head:not([data-placeholder='']):not(:empty)::after {
     content: none;
 }
 </style>

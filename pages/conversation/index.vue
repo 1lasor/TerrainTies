@@ -111,9 +111,11 @@ const callConversationActionSheet = (conversationItem) =>{
     flex-direction: column;
     align-items: flex-start;
     padding: 20rpx;
-    background-color: #f8f8f8;
-    border-bottom: 1px solid #eaeaea;
+    background-color: #ffaa7f;
     border-radius: 10rpx;
+	border-style: dashed;
+	border-color: #3b5b7b;
     margin: 10rpx 0;
+	background-image: url('../../static/blocks.png');
 }
 </style>

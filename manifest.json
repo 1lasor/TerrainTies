@@ -57,13 +57,10 @@
         "usingComponents" : true,
         "permission" : {
             "scope.userLocation" : {
-<<<<<<< HEAD
-                "desc" : ""
-=======
                 "desc" : "地图社交软件需要获取用户位置"
->>>>>>> 8d447536716426f8cd440f1ce703eede15604f52
             }
-        }
+        },
+		"requiredPrivateInfos": ["getLocation", "chooseLocation"]
     },
     "mp-alipay" : {
         "usingComponents" : true

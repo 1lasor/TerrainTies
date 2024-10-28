@@ -1,6 +1,5 @@
 <template>
-    <view>
-        <button @click="onAddContact">添加好友</button>
+    <view class="contacts_wrapper">
         <view v-for="invite in pendingContactInvites" :key="invite.from">
             <text>来自 {{ invite.from }} 的好友请求: "{{ invite.status }}"</text>
             <button @click="() => acceptInvite(invite.from)">接受</button>
@@ -18,6 +17,7 @@
                 <text>({{ getContactUserInfoMap(contactItem.userId) }})</text>
             </view>
         </view>
+		<button @click="onAddContact" class = login-button>添加好友</button>
     </view>
 </template>
 
@@ -158,22 +158,36 @@ const navigateToChat = (userId) => {
 </script>
 
 <style>
+.contacts_wrapper{
+	background-color: bisque;
+}
+.login-button{
+	color: #f0d7d3;
+	background-color: #3c5978;
+	margin-top: 100px;
+}
 .conversation_item {
-    padding-bottom: 20rpx;
+    padding-bottom: 0rpx;
     font-size: 20px;
     /* 添加可见性样式，例如 */
     display: block; /* 或者 flex, grid 等 */
+	background-color: bisque;
+	border-style: groove;
 }
 
 .conversation_main {
+	color: black;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     padding: 20rpx;
-    background-color: #f8f8f8;
-    border-bottom: 1px solid #eaeaea;
+    background-color: #f5f5dc;
     border-radius: 10rpx;
+	border-width: 12;
     margin: 10rpx 0;
+	background-image: url('../../static/blocks.png');
+	background-size: cover;
+
 }
 
 </style>

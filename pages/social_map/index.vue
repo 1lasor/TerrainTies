@@ -18,10 +18,10 @@
 						<cover-image class="cover-image" src="/static/dingwei.png"></cover-image>
 						<cover-view>定位</cover-view>
 					</cover-view>
-					<cover-view @click="getUserLocation('wqq')">
+<!-- 					<cover-view @click="getUserLocation('wqq')">
 						<cover-image class="cover-image" src="/static/logo.png"></cover-image>
 						<cover-view>测试定位</cover-view>
-					</cover-view>
+					</cover-view> -->
 				</cover-view>
 			</map>
 		</view>
@@ -29,7 +29,7 @@
 		<!-- 底部导航栏 -->
 		<nav class="bottom-nav">
 			<button @click="navigateTo('/pages/contacts/index')">好友列表</button>
-			<button>附近的人</button>
+			<button @click="navigateTo('/pages/nearby/index')">附近的人</button>
 			<button @click="navigateTo('/pages/conversation/index')">消息列表</button>
 			<button @click="navigateTo('/pages/homepage/index')">我的主页</button>
 		</nav>
@@ -225,7 +225,6 @@
 						    const title = this.markerTitleMap[markerId]; // 根据markerId获取title
 						
 						    console.log("你点击了标记点", title);
-<<<<<<< HEAD
 						    // uni.showModal({
 						    //     title: '提示',
 						    //     content: '地图点击事件，标记点: ' + title
@@ -233,12 +232,10 @@
 							uni.navigateTo({
 								url: `/pages/chat/index?userId=${encodeURIComponent(title)}`
 							});
-=======
 						    uni.showModal({
 						        title: '提示',
 						        content: '地图点击事件，标记点: ' + title
 						    });
->>>>>>> 8d447536716426f8cd440f1ce703eede15604f52
 						},
 						  // 获取用户当前位置的示例方法
 						getUserCurrentLocation() {
@@ -308,7 +305,7 @@
 	    box-sizing: border-box;
 	    z-index: 998;
 	    color: #000000;
-	    background-color: #ffd503;
+	    background-color: #fffdf8;
 	    text-align: center;
 	}
 	.map-container {
@@ -324,15 +321,18 @@
 		align-items: center;
 		justify-content: center;
 		padding: 42rpx 22rpx;
-		color: #4F575F;
-		font-weight: 400;
-		background-color: #fff;
+		color: #ffffff;
+		font-weight: 300;
+		background-color: #7200a2;
 		background-size: 120rpx 120rpx;
 		background-position: center center;
+		border-color: #ffd500;
+		border-width: 10;
+		border-style: groove;
 		position: absolute;
 		top: 150rpx;
 		right: 32rpx;
-		border-radius: 15rpx;
+		border-radius: 30rpx;
 	}
 
 	.cover-image {
@@ -349,15 +349,16 @@
 		display: flex;
 		justify-content: space-around;
 		padding: 10px;
-		background-color: #f8f8f8;
+		background-color: #3c5978;
 	}
 
 	.bottom-nav button {
 		padding: 10px;
-		background-color: #fff;
-		border: 1px solid #ddd;
+		background-color: #fffdf8;
+		border: 1px solid #ffd500;
 		border-radius: 5px;
 		cursor: pointer;
+		font-style: italic;
 	}
 
 </style>

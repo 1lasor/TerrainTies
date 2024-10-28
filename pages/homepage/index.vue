@@ -3,18 +3,18 @@
         <button @click="setUserInfoData">设置用户属性</button>
     </view>
     <view class="user_info">
-        
-        <text>{{'性别：' + userGender }}\n</text>
-        <text>{{'手机号：' + userPhone }}\n</text>
-        <text>{{'生日：' + userBirth }}\n</text>
-        <text>{{'位置：纬度：' + userLatitude }}\n</text>
-        <text>{{'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经度：' + userLongitude }}\n</text>
-    </view>
-    <view class="centered-view">
-        <text class="state_text">{{ '当前用户状态：' }}</text>
-        <picker mode="selector" :range="stateOptions" @change="onStateChange">
-            <view class="picker">{{ state }}</view>
-        </picker>
+        <image class="avatar" :src="useAvatarurl"></image>
+        <text class="text_line">\n{{'性别：' + userGender }}\n</text>
+        <text class="text_line">{{'手机号：' + userPhone }}\n</text>
+        <text class="text_line">{{'生日：' + userBirth }}\n</text>
+        <text class="text_line">{{'位置：纬度：' + userLatitude }}\n</text>
+        <text class="text_line">{{'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经度：' + userLongitude }}\n</text>
+        <view class="centered-view">
+            <text class="state_text">{{ '当前用户状态：' }}</text>
+            <picker mode="selector" :range="stateOptions" @change="onStateChange">
+                <view class="picker">{{ state }}</view>
+            </picker>
+        </view>
     </view>
 </template>
 
@@ -25,6 +25,7 @@ import { ref,onMounted } from 'vue';
 
 const ContactStore = useContactsStore();
 
+const useAvatarurl = ref('');
 const userGender = ref('');
 const userPhone = ref('');
 const userBirth = ref('');
@@ -40,6 +41,8 @@ const setUserInfoData = () =>{
 
 const updateUserInfo = async () => {
     const result = await getUserInfoDetails();
+    useAvatarurl.value = result.data[EMClient.user].avatarurl;
+    console.log(useAvatarurl.value);
     userGender.value = result.data[EMClient.user].gender;
     userPhone.value = result.data[EMClient.user].phone;
     userBirth.value = result.data[EMClient.user].birth;
@@ -88,6 +91,18 @@ const onStateChange = async (e) => {
 
 
 <style>
+.text_line{
+}
+.avatar {
+    margin-left: 73px;
+    width: 400rpx; /* 或者具体的宽度，根据需要调整 */
+    height: 400rpx; /* 或者具体的高度，根据需要调整 */
+    border-radius: 50%; /* 如果需要圆形头像 */
+	border-style: dotted;
+	border-width: 5px;
+	border-color: darkorange;
+}
+
 .state_text {
     /* 设置字体大小 */
     font-size: 16px;
@@ -105,8 +120,9 @@ const onStateChange = async (e) => {
 .user_info {
     /* 设置字体大小 */
     font-size: 16px;
+	font-weight: 100;
     /* 设置文本颜色 */
-    color: #333;
+    color: #ffffff;
     /* 设置行高 */
     line-height: 1.5;
     /* 设置边距 */
@@ -118,12 +134,12 @@ const onStateChange = async (e) => {
     /* 设置内边距 */
     padding: 10px;
     /* 设置背景颜色 */
-    background-color: #f9f9f9;
+    background-color: #ffaa7f;
     /* 设置圆角 */
     border-radius: 5px;
     /* 保留空白符和换行符 */
     white-space: pre-wrap;
-    margin-top: 500rpx;
+    margin-top: 50rpx;
 }
 
 .centered-view {
@@ -133,6 +149,7 @@ const onStateChange = async (e) => {
     align-items: center; /* 垂直居中对齐子元素 */
     margin-top: 200rpx;
     height: auto;
+	border-style: dashed;
 }
 
 .picker {
@@ -144,7 +161,7 @@ const onStateChange = async (e) => {
     margin-left: 10px; /* 调整左边距，以便和state_text有间隔 */
     text-align: left;
     width: 100%;
-    height: 200rpx;
+    height: 100rpx;
     border: 1px solid #ccc;
     border-radius: 10rpx;
     padding: 0 20rpx;
@@ -152,7 +169,7 @@ const onStateChange = async (e) => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #f8f8f8;
+    background-color: #ffdd1a;
     border: 1px solid #ddd;
     border-radius: 4px;
 }

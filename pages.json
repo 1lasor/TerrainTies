@@ -56,12 +56,15 @@
 			"style": {
 				"navigationBarTitleText": "TerrainTies"
 			}
+		},
+		{
+			"path":"pages/nearby/index"
 		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "TerrainTies",
-		"navigationBarBackgroundColor": "#ffd503",
+		"navigationBarBackgroundColor": "#fffdf8",
 		"backgroundColor": "#F8F8F8"
 	},
 	"uniIdRouter": {}
